@@ -1,0 +1,277 @@
+/* ═══════════════════════════════════════════════════════════════
+   CATEGORY FILTER — FoodieExpress
+   Aesthetic: Warm cream · tactile pill chips · emoji icons
+   Memorable: sliding active indicator, scroll-snap on mobile,
+              staggered mount animation, count badges
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --cf-bg:           #fffdf8;
+  --cf-chip-bg:      #f2ece0;
+  --cf-chip-border:  #e4dccf;
+  --cf-chip-hover:   #ece4d4;
+  --cf-active-bg:    #1c1712;
+  --cf-active-text:  #fffdf8;
+  --cf-accent:       #e8891a;
+  --cf-accent-light: #fdf0dc;
+  --cf-text:         #1c1712;
+  --cf-text-mid:     #5a4f3e;
+  --cf-text-muted:   #9a8f7e;
+  --cf-border:       #ede7d9;
+  --cf-font:         'DM Sans', sans-serif;
+  --transition:      all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Wrapper ─────────────────────────────────────────────────── */
+.category-filter {
+  width:      100%;
+  font-family:var(--cf-font);
+}
+
+/* ── Header row ─────────────────────────────────────────────── */
+.category-filter__header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   0.85rem;
+  gap:             1rem;
+}
+
+.category-filter__label {
+  font-size:     0.7rem;
+  font-weight:   600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:         var(--cf-text-muted);
+}
+
+.category-filter__clear {
+  font-size:       0.78rem;
+  font-weight:     500;
+  color:           var(--cf-accent);
+  background:      transparent;
+  border:          none;
+  cursor:          pointer;
+  padding:         2px 6px;
+  border-radius:   6px;
+  transition:      var(--transition);
+  white-space:     nowrap;
+}
+
+.category-filter__clear:hover {
+  background: var(--cf-accent-light);
+}
+
+/* ── Scroll track ────────────────────────────────────────────── */
+.category-filter__track {
+  display:            flex;
+  gap:                0.45rem;
+  overflow-x:         auto;
+  padding-bottom:     4px;
+  scrollbar-width:    none;          /* Firefox */
+  -ms-overflow-style: none;          /* IE/Edge */
+  scroll-snap-type:   x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-filter__track::-webkit-scrollbar { display: none; }
+
+/* Fade edges on scroll */
+.category-filter__scroll-wrap {
+  position: relative;
+}
+
+.category-filter__scroll-wrap::before,
+.category-filter__scroll-wrap::after {
+  content:    '';
+  position:   absolute;
+  top:        0;
+  bottom:     4px;
+  width:      32px;
+  z-index:    2;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.category-filter__scroll-wrap::before {
+  left:       0;
+  background: linear-gradient(to right, var(--cf-bg), transparent);
+}
+
+.category-filter__scroll-wrap::after {
+  right:      0;
+  background: linear-gradient(to left, var(--cf-bg), transparent);
+}
+
+/* ── Individual chip ─────────────────────────────────────────── */
+.category-filter__chip {
+  display:         flex;
+  align-items:     center;
+  gap:             0.4rem;
+  padding:         0.48rem 0.9rem;
+  background:      var(--cf-chip-bg);
+  border:          1.5px solid var(--cf-chip-border);
+  border-radius:   50px;
+  color:           var(--cf-text-mid);
+  font-family:     var(--cf-font);
+  font-size:       0.845rem;
+  font-weight:     500;
+  cursor:          pointer;
+  white-space:     nowrap;
+  transition:      var(--transition);
+  scroll-snap-align: start;
+  position:        relative;
+  flex-shrink:     0;
+  animation:       chipIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* stagger animation per chip */
+.category-filter__chip:nth-child(1)  { animation-delay: 0.00s; }
+.category-filter__chip:nth-child(2)  { animation-delay: 0.03s; }
+.category-filter__chip:nth-child(3)  { animation-delay: 0.06s; }
+.category-filter__chip:nth-child(4)  { animation-delay: 0.09s; }
+.category-filter__chip:nth-child(5)  { animation-delay: 0.12s; }
+.category-filter__chip:nth-child(6)  { animation-delay: 0.15s; }
+.category-filter__chip:nth-child(7)  { animation-delay: 0.18s; }
+.category-filter__chip:nth-child(8)  { animation-delay: 0.21s; }
+.category-filter__chip:nth-child(9)  { animation-delay: 0.24s; }
+.category-filter__chip:nth-child(10) { animation-delay: 0.27s; }
+.category-filter__chip:nth-child(n+11){ animation-delay: 0.30s; }
+
+@keyframes chipIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.category-filter__chip:hover {
+  background:   var(--cf-chip-hover);
+  border-color: #d4c9b8;
+  color:        var(--cf-text);
+  transform:    translateY(-2px);
+  box-shadow:   0 4px 12px rgba(100, 70, 20, 0.1);
+}
+
+.category-filter__chip:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* Active chip */
+.category-filter__chip--active {
+  background:   var(--cf-active-bg);
+  border-color: var(--cf-active-bg);
+  color:        var(--cf-active-text);
+  box-shadow:   0 4px 16px rgba(28, 23, 18, 0.25);
+}
+
+.category-filter__chip--active:hover {
+  background:  #2e2820;
+  border-color:#2e2820;
+  color:       var(--cf-active-text);
+  box-shadow:  0 6px 20px rgba(28, 23, 18, 0.3);
+}
+
+/* "All" chip gets accent color when active */
+.category-filter__chip--all.category-filter__chip--active {
+  background:   var(--cf-accent);
+  border-color: var(--cf-accent);
+  color:        #fff;
+  box-shadow:   0 4px 16px rgba(232, 137, 26, 0.35);
+}
+
+.category-filter__chip--all.category-filter__chip--active:hover {
+  background:  #c4700f;
+  border-color:#c4700f;
+}
+
+/* ── Chip emoji icon ─────────────────────────────────────────── */
+.category-filter__chip-icon {
+  font-size:  1rem;
+  line-height:1;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink:0;
+}
+
+.category-filter__chip:hover .category-filter__chip-icon {
+  transform: scale(1.25) rotate(-6deg);
+}
+
+.category-filter__chip--active .category-filter__chip-icon {
+  transform: scale(1.1);
+}
+
+/* ── Count badge ─────────────────────────────────────────────── */
+.category-filter__chip-count {
+  font-size:       0.65rem;
+  font-weight:     600;
+  padding:         1px 6px;
+  border-radius:   50px;
+  background:      rgba(255, 255, 255, 0.2);
+  color:           inherit;
+  min-width:       20px;
+  text-align:      center;
+  transition:      var(--transition);
+}
+
+.category-filter__chip:not(.category-filter__chip--active) .category-filter__chip-count {
+  background: rgba(0, 0, 0, 0.07);
+  color:      var(--cf-text-muted);
+}
+
+/* ── Grid layout variant ─────────────────────────────────────── */
+.category-filter--grid .category-filter__track {
+  display:   flex;
+  flex-wrap: wrap;
+  overflow:  visible;
+}
+
+.category-filter--grid .category-filter__chip {
+  scroll-snap-align: none;
+  flex-shrink:       1;
+}
+
+/* ── Vertical layout variant ─────────────────────────────────── */
+.category-filter--vertical .category-filter__track {
+  flex-direction: column;
+  overflow:       visible;
+  gap:            0.35rem;
+}
+
+.category-filter--vertical .category-filter__chip {
+  scroll-snap-align: none;
+  justify-content:   flex-start;
+  border-radius:     12px;
+  padding:           0.55rem 1rem;
+}
+
+/* ── Skeleton loader ─────────────────────────────────────────── */
+.category-filter__chip--skeleton {
+  background:    #ede7d9;
+  border-color:  #ede7d9;
+  color:         transparent;
+  pointer-events:none;
+  animation:     skelPulse 1.5s ease-in-out infinite;
+}
+
+.category-filter__chip--skeleton .category-filter__chip-icon,
+.category-filter__chip--skeleton .category-filter__chip-count {
+  visibility: hidden;
+}
+
+@keyframes skelPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .category-filter__chip {
+    padding:   0.42rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .category-filter__chip-icon {
+    font-size: 0.9rem;
+  }
+}
