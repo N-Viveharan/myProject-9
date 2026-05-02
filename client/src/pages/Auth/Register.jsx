@@ -3,6 +3,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import './Auth.css';
 
+
+
 /* ── Password strength calculator ────────────────────────────── */
 function getPasswordStrength(pwd) {
   if (!pwd) return { score: 0, label: '', levels: [false,false,false,false] };
