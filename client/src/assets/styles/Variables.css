@@ -1,0 +1,305 @@
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — FoodieExpress
+   Single source of truth for every colour, size, shadow,
+   animation timing and z-index used across the application.
+   Import this before global.css in main.jsx.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ────────────────────────────────────────────────────────
+     BRAND PALETTE
+     ──────────────────────────────────────────────────────── */
+
+  /* Primary — saffron amber */
+  --color-primary-50:   #fff8ec;
+  --color-primary-100:  #fdf0dc;
+  --color-primary-200:  #fad9a3;
+  --color-primary-300:  #f7be65;
+  --color-primary-400:  #f5a623;   /* logo accent */
+  --color-primary-500:  #e8891a;   /* main CTA */
+  --color-primary-600:  #c4700f;   /* hover CTA */
+  --color-primary-700:  #9e5a0c;
+  --color-primary-800:  #7a440a;
+  --color-primary-900:  #5a3007;
+
+  /* Dark — rich charcoal (hero/navbar) */
+  --color-dark-50:      #f0ebe3;
+  --color-dark-100:     #d8cfc4;
+  --color-dark-200:     #b5a897;
+  --color-dark-300:     #8f8070;
+  --color-dark-400:     #6e614f;
+  --color-dark-500:     #5a4f3e;   /* body text mid */
+  --color-dark-600:     #3d3529;
+  --color-dark-700:     #2e2820;
+  --color-dark-800:     #231f1a;   /* navbar surface */
+  --color-dark-900:     #1a1814;   /* hero bg */
+  --color-dark-950:     #111009;   /* footer bg */
+
+  /* Cream — warm off-whites (page bg) */
+  --color-cream-50:     #ffffff;
+  --color-cream-100:    #fffdf8;   /* page background */
+  --color-cream-200:    #f7f2e8;   /* surface / card bg */
+  --color-cream-300:    #ede7d9;   /* border default */
+  --color-cream-400:    #e0d8c8;
+  --color-cream-500:    #c8bc9e;
+
+  /* Semantic — green (success / veg / delivered) */
+  --color-success-50:   #e8f5ee;
+  --color-success-100:  #c3e6d0;
+  --color-success-500:  #2d7a4f;
+  --color-success-600:  #235f3d;
+  --color-success-700:  #1a4a2e;
+
+  /* Semantic — red (error / cancel / non-veg) */
+  --color-danger-50:    #fdecea;
+  --color-danger-100:   #f9c8c4;
+  --color-danger-500:   #c0392b;
+  --color-danger-600:   #a32320;
+  --color-danger-700:   #841a18;
+
+  /* Semantic — blue (info / placed) */
+  --color-info-50:      #e3f0fb;
+  --color-info-100:     #b8d8f6;
+  --color-info-500:     #1a6fb5;
+  --color-info-600:     #145a95;
+
+  /* Semantic — amber (warning / preparing) */
+  --color-warning-50:   #fef3c7;
+  --color-warning-100:  #fde68a;
+  --color-warning-500:  #d97706;
+  --color-warning-600:  #b45309;
+
+  /* Semantic — purple (preparing status) */
+  --color-purple-50:    #f3f0ff;
+  --color-purple-500:   #7c3aed;
+
+  /* Star rating */
+  --color-star:         #f5a623;
+
+  /* ────────────────────────────────────────────────────────
+     SEMANTIC ALIASES (use these in components, not raw palette)
+     ──────────────────────────────────────────────────────── */
+
+  --color-bg:           var(--color-cream-100);
+  --color-surface:      var(--color-cream-200);
+  --color-border:       var(--color-cream-300);
+  --color-border-strong:#d4c9b8;
+
+  --color-text:         #1c1712;
+  --color-text-mid:     var(--color-dark-500);
+  --color-text-muted:   #9a8f7e;
+  --color-text-inverse: #fffdf8;
+
+  --color-accent:       var(--color-primary-500);
+  --color-accent-light: var(--color-primary-100);
+  --color-accent-dark:  var(--color-primary-600);
+  --color-accent-hover: var(--color-primary-600);
+
+  --color-green:        var(--color-success-500);
+  --color-green-bg:     var(--color-success-50);
+  --color-red:          var(--color-danger-500);
+  --color-red-bg:       var(--color-danger-50);
+
+  /* ────────────────────────────────────────────────────────
+     TYPOGRAPHY
+     ──────────────────────────────────────────────────────── */
+
+  --font-sans:    'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* Scale — minor third (1.2×) */
+  --text-xs:   0.694rem;    /*  ~11px */
+  --text-sm:   0.833rem;    /*  ~13px */
+  --text-base: 1rem;        /*   16px */
+  --text-md:   1.2rem;      /*  ~19px */
+  --text-lg:   1.44rem;     /*  ~23px */
+  --text-xl:   1.728rem;    /*  ~28px */
+  --text-2xl:  2.074rem;    /*  ~33px */
+  --text-3xl:  2.488rem;    /*  ~40px */
+  --text-4xl:  2.986rem;    /*  ~48px */
+  --text-5xl:  3.583rem;    /*  ~57px */
+
+  /* Weight */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-black:   900;
+
+  /* Line height */
+  --leading-none:   1;
+  --leading-tight:  1.15;
+  --leading-snug:   1.35;
+  --leading-normal: 1.55;
+  --leading-relaxed:1.7;
+  --leading-loose:  2;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.1em;
+  --tracking-widest:  0.14em;
+
+  /* ────────────────────────────────────────────────────────
+     SPACING (4px base grid)
+     ──────────────────────────────────────────────────────── */
+
+  --space-0:    0;
+  --space-px:   1px;
+  --space-0-5:  0.125rem;   /*  2px */
+  --space-1:    0.25rem;    /*  4px */
+  --space-1-5:  0.375rem;   /*  6px */
+  --space-2:    0.5rem;     /*  8px */
+  --space-2-5:  0.625rem;   /* 10px */
+  --space-3:    0.75rem;    /* 12px */
+  --space-3-5:  0.875rem;   /* 14px */
+  --space-4:    1rem;       /* 16px */
+  --space-5:    1.25rem;    /* 20px */
+  --space-6:    1.5rem;     /* 24px */
+  --space-7:    1.75rem;    /* 28px */
+  --space-8:    2rem;       /* 32px */
+  --space-9:    2.25rem;    /* 36px */
+  --space-10:   2.5rem;     /* 40px */
+  --space-12:   3rem;       /* 48px */
+  --space-14:   3.5rem;     /* 56px */
+  --space-16:   4rem;       /* 64px */
+  --space-20:   5rem;       /* 80px */
+  --space-24:   6rem;       /* 96px */
+  --space-28:   7rem;       /* 112px */
+  --space-32:   8rem;       /* 128px */
+
+  /* ────────────────────────────────────────────────────────
+     BORDER RADIUS
+     ──────────────────────────────────────────────────────── */
+
+  --radius-none: 0;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-3xl:  24px;
+  --radius-4xl:  28px;
+  --radius-full: 9999px;
+
+  /* ────────────────────────────────────────────────────────
+     SHADOWS
+     ──────────────────────────────────────────────────────── */
+
+  --shadow-xs:  0 1px 3px rgba(100,70,20,0.06);
+  --shadow-sm:  0 2px 8px rgba(100,70,20,0.08);
+  --shadow-md:  0 6px 20px rgba(100,70,20,0.1);
+  --shadow-lg:  0 12px 40px rgba(100,70,20,0.13);
+  --shadow-xl:  0 20px 60px rgba(100,70,20,0.16);
+  --shadow-2xl: 0 32px 80px rgba(100,70,20,0.2);
+
+  --shadow-accent-sm:  0 4px 14px rgba(232,137,26,0.25);
+  --shadow-accent-md:  0 8px 24px rgba(232,137,26,0.35);
+  --shadow-accent-lg:  0 12px 36px rgba(232,137,26,0.45);
+
+  --shadow-dark-sm:    0 4px 16px rgba(0,0,0,0.18);
+  --shadow-dark-md:    0 10px 40px rgba(0,0,0,0.28);
+  --shadow-dark-lg:    0 24px 80px rgba(0,0,0,0.45);
+
+  --shadow-inset:      inset 0 2px 6px rgba(100,70,20,0.08);
+
+  --shadow-focus-accent: 0 0 0 4px rgba(232,137,26,0.15);
+  --shadow-focus-danger: 0 0 0 4px rgba(192,57,43,0.12);
+
+  /* ────────────────────────────────────────────────────────
+     LAYOUT
+     ──────────────────────────────────────────────────────── */
+
+  --max-width-sm:   640px;
+  --max-width-md:   768px;
+  --max-width-lg:   1024px;
+  --max-width-xl:   1280px;
+  --max-width-2xl:  1440px;
+
+  --nav-height:     72px;
+  --sidebar-width:  260px;
+  --admin-sidebar:  240px;
+
+  /* ────────────────────────────────────────────────────────
+     TRANSITIONS
+     ──────────────────────────────────────────────────────── */
+
+  --ease-default:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:        cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:       cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce:    cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --duration-75:    75ms;
+  --duration-100:   100ms;
+  --duration-150:   150ms;
+  --duration-200:   200ms;
+  --duration-300:   300ms;
+  --duration-500:   500ms;
+  --duration-700:   700ms;
+  --duration-1000:  1000ms;
+
+  --transition-fast:    all 150ms var(--ease-default);
+  --transition-base:    all 250ms var(--ease-default);
+  --transition-slow:    all 400ms var(--ease-default);
+  --transition-spring:  all 300ms var(--ease-spring);
+
+  /* ────────────────────────────────────────────────────────
+     Z-INDEX SCALE
+     ──────────────────────────────────────────────────────── */
+
+  --z-below:      -1;
+  --z-base:        0;
+  --z-raised:      10;
+  --z-dropdown:    100;
+  --z-sticky:      200;
+  --z-overlay:     300;
+  --z-modal:       400;
+  --z-toast:       500;
+  --z-navbar:      1000;
+  --z-top:         9999;
+
+  /* ────────────────────────────────────────────────────────
+     COMPONENT TOKENS (shortcuts used inside components)
+     ──────────────────────────────────────────────────────── */
+
+  /* Card */
+  --card-bg:      var(--color-cream-50);
+  --card-border:  var(--color-border);
+  --card-radius:  var(--radius-2xl);
+  --card-shadow:  var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-xl);
+
+  /* Button */
+  --btn-radius:   var(--radius-lg);
+  --btn-font:     var(--font-sans);
+  --btn-weight:   var(--weight-semi);
+
+  /* Input */
+  --input-bg:     var(--color-surface);
+  --input-border: var(--color-border);
+  --input-radius: var(--radius-lg);
+  --input-focus-border: var(--color-accent);
+  --input-focus-shadow: var(--shadow-focus-accent);
+
+  /* Badge */
+  --badge-radius: var(--radius-full);
+}
+
+/* ── Dark mode (opt-in via [data-theme="dark"]) ──────────────── */
+[data-theme="dark"] {
+  --color-bg:      var(--color-dark-900);
+  --color-surface: var(--color-dark-800);
+  --color-border:  rgba(255,255,255,0.08);
+  --color-text:    #f0ebe3;
+  --color-text-mid:#b5a897;
+  --color-text-muted:#7a7266;
+  --card-bg:       var(--color-dark-800);
+  --card-border:   rgba(255,255,255,0.08);
+  --input-bg:      var(--color-dark-700);
+  --input-border:  rgba(255,255,255,0.1);
+}
