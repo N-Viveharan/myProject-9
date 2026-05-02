@@ -9,14 +9,14 @@ import Spinner from './components/Spinner/Spinner.jsx';
 
 /* ── Lazy-loaded pages ───────────────────────────────────────── */
 const Home           = lazy(() => import('./pages/Home/Home.jsx'));
-const ProductListing = lazy(() => import('./pages/ProductListing/ProductListing.jsx'));
-const ProductDetail  = lazy(() => import('./pages/ProductDetail/ProductDetail.jsx'));
+const ProductListing = lazy(() => import('./pages/Productlisting/Productlisting.jsx'));
+const ProductDetail  = lazy(() => import('./pages/ProductDetail/Productdetail.jsx'));
 const Cart           = lazy(() => import('./pages/Cart/Cart.jsx'));
 const Checkout       = lazy(() => import('./pages/Checkout/Checkout.jsx'));
-const OrderHistory   = lazy(() => import('./pages/OrderHistory/OrderHistory.jsx'));
-const Login          = lazy(() => import('./pages/Login/Login.jsx'));
-const Register       = lazy(() => import('./pages/Register/Register.jsx'));
-const NotFound       = lazy(() => import('./pages/NotFound/NotFound.jsx'));
+const OrderHistory   = lazy(() => import('./pages/OrderHistory/Orderhistory.jsx'));
+const Login          = lazy(() => import('./pages/Auth/Login.jsx'));
+const Register       = lazy(() => import('./pages/Auth/Register.jsx'));
+const NotFound       = lazy(() => import('./pages/NotFound/Notfound.jsx'));
 
 /* ── Page-level loading fallback ─────────────────────────────── */
 const PageLoader = () => (

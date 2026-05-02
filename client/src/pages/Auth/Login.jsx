@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import '../Login/Auth.css';
+import './Auth.css';
 
 /* ── Brand panel (shared visual) ────────────────────────────── */
 function BrandPanel() {
@@ -44,6 +44,9 @@ function BrandPanel() {
     </div>
   );
 }
+
+
+
 
 /* ════════════════════════════════════════════════════════════
    LOGIN PAGE

@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import '../Login/Auth.css';
+import './Auth.css';
 
 /* ── Password strength calculator ────────────────────────────── */
 function getPasswordStrength(pwd) {
