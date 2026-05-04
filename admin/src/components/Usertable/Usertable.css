@@ -544,6 +544,10 @@
 .ut-modal__btn--confirm:hover:not(:disabled) { background: #c0392b; }
 .ut-modal__btn--confirm:disabled { opacity: 0.6; cursor: not-allowed; }
 
+
+
+
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .ut-toolbar  { padding: 0.75rem 1rem; }
