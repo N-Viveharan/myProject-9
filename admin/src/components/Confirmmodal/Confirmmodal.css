@@ -1,0 +1,456 @@
+/* ═══════════════════════════════════════════════════════════════
+   CONFIRM MODAL — FoodieExpress Admin
+   Aesthetic: Dark editorial · coloured variant rails
+   Memorable: spring-in animation, icon bounce, countdown timer,
+              keyboard trap, variant themes (danger/warning/info)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --cm-bg:        #111009;
+  --cm-surface:   #1a1814;
+  --cm-surface2:  #231f1a;
+  --cm-surface3:  #2e2820;
+  --cm-border:    rgba(255,255,255,0.09);
+  --cm-text:      #f0ebe3;
+  --cm-text-mid:  #a09a8e;
+  --cm-text-muted:#6e6459;
+  --cm-accent:    #f5a623;
+  --cm-accent-l:  rgba(245,166,35,0.12);
+  --cm-red:       #e74c3c;
+  --cm-red-l:     rgba(231,76,60,0.12);
+  --cm-red-d:     #c0392b;
+  --cm-green:     #2ecc71;
+  --cm-green-l:   rgba(46,204,113,0.12);
+  --cm-blue:      #3498db;
+  --cm-blue-l:    rgba(52,152,219,0.12);
+  --cm-orange:    #e67e22;
+  --cm-orange-l:  rgba(230,126,34,0.12);
+  --cm-font:      'DM Sans', sans-serif;
+  --cm-display:   'Playfair Display', serif;
+  --transition:   all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Overlay ─────────────────────────────────────────────────── */
+.cm-overlay {
+  position:        fixed;
+  inset:           0;
+  background:      rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(8px);
+  z-index:         700;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         1rem;
+  animation:       cmOverlayIn 0.18s ease;
+  font-family:     var(--cm-font);
+}
+
+@keyframes cmOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal shell ─────────────────────────────────────────────── */
+.cm-modal {
+  background:    var(--cm-surface);
+  border:        1px solid var(--cm-border);
+  border-radius: 22px;
+  width:         100%;
+  max-width:     420px;
+  overflow:      hidden;
+  box-shadow:    0 32px 100px rgba(0, 0, 0, 0.65),
+                 0 0 0 1px rgba(255,255,255,0.04);
+  animation:     cmModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position:      relative;
+}
+
+@keyframes cmModalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* Coloured top rail */
+.cm-modal::before {
+  content:    '';
+  display:    block;
+  height:     3px;
+}
+
+.cm-modal--danger  ::before,
+.cm-modal--danger::before  { background: linear-gradient(90deg, var(--cm-red),    #ff6b6b, transparent); }
+.cm-modal--warning::before { background: linear-gradient(90deg, var(--cm-orange), #f39c12, transparent); }
+.cm-modal--info::before    { background: linear-gradient(90deg, var(--cm-blue),   #74b9ff, transparent); }
+.cm-modal--success::before { background: linear-gradient(90deg, var(--cm-green),  #55efc4, transparent); }
+.cm-modal--accent::before  { background: linear-gradient(90deg, var(--cm-accent), #ffeaa7, transparent); }
+
+/* ── Body ────────────────────────────────────────────────────── */
+.cm-body {
+  padding:        2rem 2rem 1.5rem;
+  text-align:     center;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0;
+}
+
+/* ── Icon ────────────────────────────────────────────────────── */
+.cm-icon-wrap {
+  width:           72px;
+  height:          72px;
+  border-radius:   50%;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       2rem;
+  margin-bottom:   1.25rem;
+  animation:       cmIconBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+  position:        relative;
+  flex-shrink:     0;
+}
+
+@keyframes cmIconBounce {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Variant icon backgrounds */
+.cm-icon-wrap--danger  { background: var(--cm-red-l);    }
+.cm-icon-wrap--warning { background: var(--cm-orange-l); }
+.cm-icon-wrap--info    { background: var(--cm-blue-l);   }
+.cm-icon-wrap--success { background: var(--cm-green-l);  }
+.cm-icon-wrap--accent  { background: var(--cm-accent-l); }
+
+/* Spinning ring for danger */
+.cm-icon-wrap--danger::after {
+  content:       '';
+  position:      absolute;
+  inset:         -4px;
+  border-radius: 50%;
+  border:        2px dashed rgba(231,76,60,0.3);
+  animation:     cmRingSpin 8s linear infinite;
+}
+
+@keyframes cmRingSpin { to { transform: rotate(360deg); } }
+
+/* ── Title ───────────────────────────────────────────────────── */
+.cm-title {
+  font-family:   var(--cm-display);
+  font-size:     1.25rem;
+  font-weight:   700;
+  color:         var(--cm-text);
+  margin:        0 0 0.65rem;
+  line-height:   1.2;
+  animation:     cmFadeUp 0.3s ease 0.12s both;
+}
+
+/* ── Description ─────────────────────────────────────────────── */
+.cm-desc {
+  font-size:   0.875rem;
+  color:       var(--cm-text-mid);
+  line-height: 1.65;
+  margin:      0 0 0.5rem;
+  max-width:   340px;
+  animation:   cmFadeUp 0.3s ease 0.18s both;
+}
+
+.cm-desc strong,
+.cm-desc em {
+  color:       var(--cm-text);
+  font-style:  normal;
+  font-weight: 600;
+}
+
+@keyframes cmFadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Warning note ────────────────────────────────────────────── */
+.cm-note {
+  display:       flex;
+  align-items:   flex-start;
+  gap:           0.5rem;
+  padding:       0.65rem 0.85rem;
+  background:    var(--cm-surface2);
+  border:        1px solid rgba(231,76,60,0.15);
+  border-radius: 10px;
+  font-size:     0.78rem;
+  color:         var(--cm-text-muted);
+  text-align:    left;
+  margin-top:    0.5rem;
+  animation:     cmFadeUp 0.3s ease 0.22s both;
+  width:         100%;
+  box-sizing:    border-box;
+}
+
+.cm-note__icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Countdown ring ──────────────────────────────────────────── */
+.cm-countdown {
+  margin-top:  1rem;
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  font-size:   0.78rem;
+  color:       var(--cm-text-muted);
+  animation:   cmFadeUp 0.3s ease 0.25s both;
+}
+
+.cm-countdown__ring {
+  position:      relative;
+  width:         28px;
+  height:        28px;
+  flex-shrink:   0;
+}
+
+.cm-countdown__ring svg {
+  position: absolute;
+  inset:    0;
+  transform:rotate(-90deg);
+}
+
+.cm-countdown__ring-bg {
+  fill:         none;
+  stroke:       var(--cm-surface3);
+  stroke-width: 2.5;
+}
+
+.cm-countdown__ring-fill {
+  fill:             none;
+  stroke:           var(--cm-red);
+  stroke-width:     2.5;
+  stroke-linecap:   round;
+  stroke-dasharray: 75.4;
+  transition:       stroke-dashoffset 1s linear;
+}
+
+.cm-countdown__num {
+  position:  absolute;
+  inset:     0;
+  display:   flex;
+  align-items:  center;
+  justify-content:center;
+  font-size: 0.65rem;
+  font-weight:700;
+  color:     var(--cm-red);
+}
+
+/* ── Optional text input ─────────────────────────────────────── */
+.cm-input-wrap {
+  width:        100%;
+  margin-top:   0.85rem;
+  animation:    cmFadeUp 0.3s ease 0.24s both;
+}
+
+.cm-input-label {
+  font-size:     0.68rem;
+  font-weight:   700;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:         var(--cm-text-muted);
+  display:       block;
+  text-align:    left;
+  margin-bottom: 0.4rem;
+}
+
+.cm-input {
+  width:         100%;
+  padding:       0.6rem 0.85rem;
+  background:    var(--cm-surface2);
+  border:        1.5px solid var(--cm-border);
+  border-radius: 10px;
+  font-family:   var(--cm-font);
+  font-size:     0.875rem;
+  color:         var(--cm-text);
+  outline:       none;
+  transition:    var(--transition);
+  box-sizing:    border-box;
+  resize:        none;
+  min-height:    72px;
+}
+
+.cm-input::placeholder { color: var(--cm-text-muted); }
+.cm-input:focus {
+  border-color: var(--cm-red);
+  box-shadow:   0 0 0 3px rgba(231,76,60,0.1);
+}
+
+/* ── Confirm type-to-confirm ─────────────────────────────────── */
+.cm-typeconfirm {
+  width:         100%;
+  margin-top:    0.85rem;
+  animation:     cmFadeUp 0.3s ease 0.26s both;
+}
+
+.cm-typeconfirm__label {
+  font-size:   0.78rem;
+  color:       var(--cm-text-muted);
+  text-align:  left;
+  display:     block;
+  margin-bottom:0.4rem;
+  line-height: 1.5;
+}
+
+.cm-typeconfirm__label code {
+  padding:       1px 6px;
+  background:    var(--cm-surface3);
+  border-radius: 4px;
+  font-size:     0.8rem;
+  color:         var(--cm-red);
+  font-family:   monospace;
+}
+
+.cm-typeconfirm__input {
+  width:         100%;
+  padding:       0.6rem 0.85rem;
+  background:    var(--cm-surface2);
+  border:        1.5px solid var(--cm-border);
+  border-radius: 10px;
+  font-family:   monospace;
+  font-size:     0.875rem;
+  color:         var(--cm-text);
+  outline:       none;
+  transition:    var(--transition);
+  box-sizing:    border-box;
+}
+
+.cm-typeconfirm__input::placeholder { color: var(--cm-text-muted); font-family: var(--cm-font); }
+
+.cm-typeconfirm__input--valid {
+  border-color: var(--cm-green);
+  box-shadow:   0 0 0 3px rgba(46,204,113,0.1);
+}
+
+.cm-typeconfirm__input:focus:not(.cm-typeconfirm__input--valid) {
+  border-color: rgba(231,76,60,0.5);
+  box-shadow:   0 0 0 3px rgba(231,76,60,0.08);
+}
+
+/* ── Footer / action buttons ─────────────────────────────────── */
+.cm-footer {
+  display:     flex;
+  gap:         0.65rem;
+  padding:     1.25rem 2rem 1.75rem;
+  animation:   cmFadeUp 0.3s ease 0.28s both;
+}
+
+.cm-btn {
+  flex:          1;
+  padding:       0.72rem;
+  border-radius: 12px;
+  font-family:   var(--cm-font);
+  font-size:     0.9rem;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    var(--transition);
+  display:       flex;
+  align-items:   center;
+  justify-content:center;
+  gap:           0.4rem;
+  border:        none;
+}
+
+/* Cancel */
+.cm-btn--cancel {
+  background:  var(--cm-surface2);
+  border:      1px solid var(--cm-border);
+  color:       var(--cm-text-mid);
+}
+
+.cm-btn--cancel:hover {
+  background:   var(--cm-surface3);
+  color:        var(--cm-text);
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* Confirm variants */
+.cm-btn--danger {
+  background: var(--cm-red);
+  color:      #fff;
+}
+
+.cm-btn--danger:hover:not(:disabled) {
+  background:  var(--cm-red-d);
+  transform:   translateY(-1px);
+  box-shadow:  0 6px 20px rgba(231,76,60,0.4);
+}
+
+.cm-btn--warning {
+  background: var(--cm-orange);
+  color:      #fff;
+}
+
+.cm-btn--warning:hover:not(:disabled) {
+  background:  #d35400;
+  transform:   translateY(-1px);
+  box-shadow:  0 6px 20px rgba(230,126,34,0.4);
+}
+
+.cm-btn--info {
+  background: var(--cm-blue);
+  color:      #fff;
+}
+
+.cm-btn--info:hover:not(:disabled) {
+  background:  #2980b9;
+  transform:   translateY(-1px);
+  box-shadow:  0 6px 20px rgba(52,152,219,0.4);
+}
+
+.cm-btn--success {
+  background: var(--cm-green);
+  color:      #1a1814;
+}
+
+.cm-btn--success:hover:not(:disabled) {
+  background:  #27ae60;
+  transform:   translateY(-1px);
+  box-shadow:  0 6px 20px rgba(46,204,113,0.4);
+}
+
+.cm-btn--accent {
+  background: var(--cm-accent);
+  color:      #1a1814;
+}
+
+.cm-btn--accent:hover:not(:disabled) {
+  background:  var(--cm-orange);
+  transform:   translateY(-1px);
+  box-shadow:  0 6px 20px rgba(245,166,35,0.4);
+}
+
+.cm-btn:disabled {
+  opacity:        0.45;
+  cursor:         not-allowed;
+  transform:      none !important;
+  box-shadow:     none !important;
+}
+
+/* Loading spinner inside button */
+.cm-btn__spinner {
+  width:         16px;
+  height:        16px;
+  border:        2px solid rgba(255,255,255,0.3);
+  border-top:    2px solid #fff;
+  border-radius: 50%;
+  animation:     cmSpin 0.65s linear infinite;
+  flex-shrink:   0;
+}
+
+.cm-btn--accent .cm-btn__spinner,
+.cm-btn--success .cm-btn__spinner {
+  border-color:     rgba(28,23,18,0.25);
+  border-top-color: #1a1814;
+}
+
+@keyframes cmSpin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .cm-modal  { border-radius: 18px 18px 0 0; max-width: 100%; }
+  .cm-overlay{ align-items: flex-end; padding: 0; }
+  .cm-body   { padding: 1.75rem 1.5rem 1.25rem; }
+  .cm-footer { padding: 1rem 1.5rem 1.5rem; }
+  .cm-footer { flex-direction: column-reverse; }
+  .cm-btn    { padding: 0.8rem; }
+}
