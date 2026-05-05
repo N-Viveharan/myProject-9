@@ -498,6 +498,8 @@
   .dash-lower-grid { grid-template-columns: 1fr; }
 }
 
+
+
 @media (max-width: 768px) {
   .dashboard__body   { padding: 1.25rem; gap: 1.5rem; }
   .dashboard__header { padding: 1.25rem; }
