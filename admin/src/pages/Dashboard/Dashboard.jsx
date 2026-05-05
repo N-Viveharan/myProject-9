@@ -19,6 +19,9 @@ const STATUS_CLS = {
   'Cancelled':        'cancelled',
 };
 
+
+
+
 /* ── Top categories (derived from products) ──────────────────── */
 const CATEGORY_ICONS = {
   Burgers:'🍔', Pizza:'🍕', Sushi:'🍣', Pasta:'🍝', Salads:'🥗',
