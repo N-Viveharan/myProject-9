@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════════════════════════
+   MANAGE PRODUCTS PAGE — FoodieExpress Admin
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --mp-bg:       #111009;
+  --mp-surface:  #1a1814;
+  --mp-accent:   #f5a623;
+  --mp-accent-l: rgba(245,166,35,0.12);
+  --mp-accent-d: #c4700f;
+  --mp-border:   rgba(255,255,255,0.07);
+  --mp-text:     #f0ebe3;
+  --mp-text-mid: #a09a8e;
+  --mp-text-muted:#6e6459;
+  --mp-font:     'DM Sans', sans-serif;
+  --mp-display:  'Playfair Display', serif;
+  --transition:  all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.manage-products {
+  min-height:  100vh;
+  background:  var(--mp-bg);
+  font-family: var(--mp-font);
+  color:       var(--mp-text);
+}
+
+/* ── Page header ─────────────────────────────────────────────── */
+.manage-products__header {
+  padding:       1.5rem 2rem;
+  border-bottom: 1px solid var(--mp-border);
+  background:    var(--mp-surface);
+  display:       flex;
+  align-items:   flex-start;
+  justify-content:space-between;
+  gap:           1rem;
+  flex-wrap:     wrap;
+}
+
+.manage-products__title-wrap {}
+
+.manage-products__title {
+  font-family: var(--mp-display);
+  font-size:   clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  color:       var(--mp-text);
+  margin:      0 0 0.2rem;
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.manage-products__subtitle {
+  font-size: 0.82rem;
+  color:     var(--mp-text-muted);
+}
+
+.manage-products__actions {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  flex-shrink: 0;
+  flex-wrap:   wrap;
+}
+
+.mp-btn {
+  display:     inline-flex;
+  align-items: center;
+  gap:         0.35rem;
+  padding:     0.55rem 1rem;
+  border-radius:9px;
+  font-family: var(--mp-font);
+  font-size:   0.82rem;
+  font-weight: 600;
+  cursor:      pointer;
+  transition:  var(--transition);
+  text-decoration:none;
+  white-space: nowrap;
+  border:      none;
+}
+
+.mp-btn--primary {
+  background: var(--mp-accent);
+  color:      #1a1814;
+}
+
+.mp-btn--primary:hover {
+  background: var(--mp-accent-d);
+  transform:  translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245,166,35,0.35);
+}
+
+.mp-btn--secondary {
+  background:  var(--mp-surface);
+  border:      1px solid var(--mp-border);
+  color:       var(--mp-text-mid);
+}
+
+.mp-btn--secondary:hover {
+  color:        var(--mp-text);
+  border-color: rgba(255,255,255,0.14);
+}
+
+/* ── Body ────────────────────────────────────────────────────── */
+.manage-products__body {
+  padding: 2rem;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .manage-products__header { padding: 1.25rem; }
+  .manage-products__body   { padding: 1.25rem; }
+  .manage-products__actions { width: 100%; }
+  .mp-btn { flex: 1; justify-content: center; }
+}
