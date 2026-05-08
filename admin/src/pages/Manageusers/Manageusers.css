@@ -1,0 +1,124 @@
+/* ═══════════════════════════════════════════════════════════════
+   MANAGE USERS — FoodieExpress Admin
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --mu-bg:        #111009;
+  --mu-surface:   #1a1814;
+  --mu-surface2:  #231f1a;
+  --mu-accent:    #f5a623;
+  --mu-accent-l:  rgba(245,166,35,0.12);
+  --mu-accent-d:  #c4700f;
+  --mu-border:    rgba(255,255,255,0.07);
+  --mu-text:      #f0ebe3;
+  --mu-text-mid:  #a09a8e;
+  --mu-text-muted:#6e6459;
+  --mu-green:     #2ecc71;
+  --mu-red:       #e74c3c;
+  --mu-font:      'DM Sans', sans-serif;
+  --mu-display:   'Playfair Display', serif;
+  --transition:   all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.manage-users {
+  min-height:  100vh;
+  background:  var(--mu-bg);
+  font-family: var(--mu-font);
+  color:       var(--mu-text);
+}
+
+/* ── Page header ─────────────────────────────────────────────── */
+.mu-header {
+  background:    var(--mu-surface);
+  border-bottom: 1px solid var(--mu-border);
+  padding:       1.5rem 2rem;
+}
+
+.mu-header__inner {
+  display:         flex;
+  align-items:     flex-start;
+  justify-content: space-between;
+  gap:             1rem;
+  flex-wrap:       wrap;
+}
+
+.mu-header__title {
+  font-family: var(--mu-display);
+  font-size:   clamp(1.3rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color:       var(--mu-text);
+  margin:      0 0 0.25rem;
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.mu-header__subtitle {
+  font-size: 0.82rem;
+  color:     var(--mu-text-muted);
+}
+
+.mu-header__subtitle strong { color: var(--mu-accent); font-weight: 600; }
+
+.mu-header__actions {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  flex-shrink: 0;
+  flex-wrap:   wrap;
+}
+
+/* Buttons */
+.mu-btn {
+  display:     inline-flex;
+  align-items: center;
+  gap:         0.4rem;
+  padding:     0.55rem 1rem;
+  border-radius:9px;
+  font-family: var(--mu-font);
+  font-size:   0.83rem;
+  font-weight: 600;
+  cursor:      pointer;
+  transition:  var(--transition);
+  border:      none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mu-btn--secondary {
+  background:  var(--mu-surface2);
+  border:      1px solid var(--mu-border);
+  color:       var(--mu-text-mid);
+}
+
+.mu-btn--secondary:hover { color: var(--mu-text); border-color: rgba(255,255,255,0.12); }
+
+/* ── Body ────────────────────────────────────────────────────── */
+.mu-body { padding: 1.75rem 2rem; }
+
+/* ── Toast ───────────────────────────────────────────────────── */
+.mu-toast {
+  display:       flex;
+  align-items:   center;
+  gap:           0.6rem;
+  padding:       0.75rem 1rem;
+  border-radius: 10px;
+  font-size:     0.875rem;
+  margin-bottom: 1.25rem;
+  animation:     muToastIn 0.3s ease;
+}
+
+@keyframes muToastIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mu-toast--success { background: rgba(46,204,113,0.1); border:1px solid rgba(46,204,113,0.2); color: var(--mu-green); }
+.mu-toast--error   { background: rgba(231,76,60,0.1);  border:1px solid rgba(231,76,60,0.2);  color: var(--mu-red); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .mu-header { padding: 1.25rem; }
+  .mu-body   { padding: 1.25rem; }
+  .mu-header__inner { flex-direction: column; }
+}
