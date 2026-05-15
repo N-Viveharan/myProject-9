@@ -149,6 +149,9 @@ export default function CartItem({ item, compact = false, readOnly = false }) {
             {item.quantity}
           </span>
 
+
+          
+
           <button
             className="cart-item__qty-btn"
             onClick={handleIncrease}
