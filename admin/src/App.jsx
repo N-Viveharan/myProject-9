@@ -10,7 +10,7 @@
 
 import { Suspense, lazy, useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import { AdminAuthProvider, AdminAuthContext } from './context/AdminAuthContext.jsx';
+import { AdminAuthProvider, AdminAuthContext } from './context/Adminauthcontext.jsx';
 import Sidebar from './components/Sidebar/Sidebar.jsx';
 import Topbar  from './components/Topbar/Topbar.jsx';
 import Spinner from './components/Spinner/Spinner.jsx';

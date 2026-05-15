@@ -373,6 +373,8 @@
   }
 }
 
+
+
 @media (max-width: 360px) {
   .cart-item__image-wrap { display: none; }
   .cart-item__qty { margin-left: 0; }
