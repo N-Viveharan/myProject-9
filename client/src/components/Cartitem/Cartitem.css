@@ -304,6 +304,8 @@
   box-shadow:   0 3px 10px rgba(192, 57, 43, 0.3);
 }
 
+
+
 .cart-item__remove:active {
   transform: scale(0.95);
 }
