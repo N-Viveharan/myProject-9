@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AdminAuthContext } from '../../context/Adminauthcontext.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import './AdminLogin.css';
@@ -115,6 +115,9 @@ export default function AdminLogin() {
           </form>
 
           <footer className="admin-login__footer">
+            <p style={{ marginBottom: '1.25rem', fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+              Don't have an admin account? <Link to="/admin/signup" style={{ color: '#e8891a', textDecoration: 'none', fontWeight: 600 }}>Register</Link>
+            </p>
             <p>© 2024 FoodieExpress Admin Panel. All rights reserved.</p>
           </footer>
         </div>

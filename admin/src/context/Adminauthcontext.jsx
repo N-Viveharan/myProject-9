@@ -61,19 +61,8 @@ export function AdminAuthProvider({ children }) {
 
   /* ── Schedule auto-logout when JWT nears expiry ─────────── */
   const scheduleExpiry = useCallback((tkn) => {
-    clearTimeout(expiryTimer.current);
-    const decoded = decodeToken(tkn);
-    if (!decoded?.exp) return;
-
-    /* Fire 5 seconds before the token actually expires */
-    const msLeft = decoded.exp * 1000 - Date.now() - 5_000;
-    if (msLeft <= 0) { clearSession(); return; }
-
-    expiryTimer.current = setTimeout(() => {
-      clearSession();
-      window.dispatchEvent(new CustomEvent('admin:expired'));
-    }, msLeft);
-  }, [clearSession]);
+    // Raw user IDs do not expire, no automatic logout is needed
+  }, []);
 
   /* ── Verify stored token on every mount ─────────────────── */
   useEffect(() => {
@@ -120,6 +109,30 @@ export function AdminAuthProvider({ children }) {
     verify();
     return () => clearTimeout(expiryTimer.current);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* ── Register ───────────────────────────────────────────── */
+  const register = useCallback(async ({ name, email, password }) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const data = await api.post('/auth/register', { name, email, password, role: 'admin' });
+      const user = data.user;
+
+      if (!user) throw new Error('Invalid server response — no user returned.');
+
+      persistSession(data.token, user);
+      scheduleExpiry(data.token);
+      return { success: true, user };
+
+    } catch (err) {
+      const msg = err.message || 'Registration failed. Please try again.';
+      setError(msg);
+      return { success: false, message: msg };
+    } finally {
+      setLoading(false);
+    }
+  }, [persistSession, scheduleExpiry]);
 
   /* ── Login ──────────────────────────────────────────────── */
   const login = useCallback(async ({ email, password }) => {
@@ -213,6 +226,7 @@ export function AdminAuthProvider({ children }) {
     error,
     isLoggedIn,
     /* Actions */
+    register,
     login,
     logout,
     updateAdminProfile,

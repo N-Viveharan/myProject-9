@@ -1,0 +1,210 @@
+.admin-signup {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111009;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #fff;
+}
+
+.admin-signup__container {
+  width: 100%;
+  max-width: 460px;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.admin-signup__card {
+  background: rgba(25, 24, 18, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.admin-signup__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-signup__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-signup__logo-icon {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #e8891a, #c4700f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(232, 137, 26, 0.3));
+}
+
+.admin-signup__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.admin-signup__subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0.5rem 0 0 0;
+}
+
+.admin-signup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.admin-signup__alert {
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.admin-signup__alert--error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.admin-signup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-signup__field label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-signup__field input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.admin-signup__field input:focus {
+  outline: none;
+  border-color: #e8891a;
+  background: rgba(232, 137, 26, 0.05);
+  box-shadow: 0 0 0 4px rgba(232, 137, 26, 0.1);
+}
+
+.admin-signup__submit {
+  background: linear-gradient(135deg, #e8891a, #c4700f);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-signup__submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(232, 137, 26, 0.4);
+}
+
+.admin-signup__submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.admin-signup__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.admin-signup__footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.admin-signup__login-prompt {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.admin-signup__login-prompt a {
+  color: #e8891a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.admin-signup__login-prompt a:hover {
+  color: #c4700f;
+  text-decoration: underline;
+}
+
+.admin-signup__copyright {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+/* Background Blobs */
+.admin-signup__blob {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  filter: blur(100px);
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.admin-signup__blob--1 {
+  background: #e8891a;
+  top: -100px;
+  right: -100px;
+  animation: move 20s infinite alternate;
+}
+
+.admin-signup__blob--2 {
+  background: #c4700f;
+  bottom: -100px;
+  left: -100px;
+  animation: move 25s infinite alternate-reverse;
+}
+
+@keyframes move {
+  from { transform: translate(0, 0); }
+  to { transform: translate(100px, 100px); }
+}
+
+@media (max-width: 480px) {
+  .admin-signup__container {
+    padding: 1rem;
+  }
+  .admin-signup__card {
+    padding: 2rem;
+  }
+}

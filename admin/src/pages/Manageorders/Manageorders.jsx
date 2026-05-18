@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderTable from '../../components/OrderTable/OrderTable.jsx';
-import './ManageOrders.css';
+import './Manageorders.css';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 

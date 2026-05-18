@@ -13,7 +13,7 @@
 import axios from 'axios';
 
 /* ── Constants ───────────────────────────────────────────────── */
-const BASE_URL   = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const BASE_URL   = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 const TOKEN_KEY  = 'foodie_token';
 const TIMEOUT_MS = 15_000;
 
@@ -32,18 +32,11 @@ export const tokenHelpers = {
    JWT DECODE HELPERS (no library needed)
    ════════════════════════════════════════════════════════════ */
 export const decodeToken = (token) => {
-  try {
-    const payload = token.split('.')[1];
-    return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
-  } catch {
-    return null;
-  }
+  return null;
 };
 
 export const isTokenExpired = (token) => {
-  const decoded = decodeToken(token);
-  if (!decoded?.exp) return true;
-  return decoded.exp * 1000 < Date.now() + 10_000; // 10s buffer
+  return false;
 };
 
 /* ════════════════════════════════════════════════════════════
@@ -66,8 +59,11 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = tokenHelpers.get();
+    
+    // Bypass token checks for login and signup requests
+    const isAuthRoute = config.url?.includes('/auth/login') || config.url?.includes('/auth/register');
 
-    if (token) {
+    if (token && !isAuthRoute) {
       if (isTokenExpired(token)) {
         // Wipe stale token — don't bother sending the request
         tokenHelpers.remove();
@@ -179,7 +175,7 @@ function normaliseError(error) {
    ════════════════════════════════════════════════════════════ */
 function redirectToLogin(fromUrl = '') {
   const currentPath = window.location.pathname + window.location.search;
-  const loginPath   = '/login';
+  const loginPath   = '/admin/login';
 
   if (window.location.pathname === loginPath) return; // already there
 

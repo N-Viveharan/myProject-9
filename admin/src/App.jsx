@@ -17,10 +17,11 @@ import Spinner from './components/Spinner/Spinner.jsx';
 
 /* ── Lazy-loaded pages ───────────────────────────────────────── */
 const Dashboard      = lazy(() => import('./pages/Dashboard/Dashboard.jsx'));
-const ManageProducts = lazy(() => import('./pages/ManageProducts/ManageProducts.jsx'));
-const ManageOrders   = lazy(() => import('./pages/ManageOrders/ManageOrders.jsx'));
-const ManageUsers    = lazy(() => import('./pages/ManageUsers/ManageUsers.jsx'));
+const ManageProducts = lazy(() => import('./pages/Manageproducts/Manageproducts.jsx'));
+const ManageOrders   = lazy(() => import('./pages/Manageorders/Manageorders.jsx'));
+const ManageUsers    = lazy(() => import('./pages/Manageusers/Manageusers.jsx'));
 const AdminLogin     = lazy(() => import('./pages/AdminLogin/AdminLogin.jsx'));
+const AdminSignup    = lazy(() => import('./pages/AdminSignup/AdminSignup.jsx'));
 const NotFound       = lazy(() => import('./pages/NotFound/NotFound.jsx'));
 
 /* ── Page loading fallback ───────────────────────────────────── */
@@ -193,6 +194,16 @@ function AdminRoutes() {
         element={
           <Suspense fallback={<PageLoader />}>
             <AdminLogin />
+          </Suspense>
+        }
+      />
+
+      {/* Public — signup */}
+      <Route
+        path="/admin/signup"
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <AdminSignup />
           </Suspense>
         }
       />
