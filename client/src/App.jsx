@@ -17,6 +17,7 @@ const OrderHistory   = lazy(() => import('./pages/OrderHistory/Orderhistory.jsx'
 const Login          = lazy(() => import('./pages/Auth/Login.jsx'));
 const Register       = lazy(() => import('./pages/Auth/Register.jsx'));
 const NotFound       = lazy(() => import('./pages/NotFound/Notfound.jsx'));
+const Offers         = lazy(() => import('./pages/Offers/Offers.jsx'));
 
 /* ── Page-level loading fallback ─────────────────────────────── */
 const PageLoader = () => (
@@ -74,6 +75,12 @@ export default function App() {
               <Route path="/products/:id" element={
                 <Layout>
                   <ProductDetail />
+                </Layout>
+              } />
+
+              <Route path="/offers" element={
+                <Layout>
+                  <Offers />
                 </Layout>
               } />
 
