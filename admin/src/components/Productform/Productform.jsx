@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './ProductForm.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Category definitions ────────────────────────────────────── */
 const CATEGORIES = [
@@ -35,6 +35,7 @@ const BLANK = {
   isFeatured:      false,
   isAvailable:     true,
   imageUrl:        '',
+  options:         [],
 };
 
 /* ── Validation ──────────────────────────────────────────────── */
@@ -47,8 +48,7 @@ const validate = (form, imageFile, isEdit) => {
   if (!form.price || isNaN(form.price) || Number(form.price) <= 0)
                                                  errs.price       = 'Enter a valid price greater than 0';
   if (!form.category)                            errs.category    = 'Select a category';
-  if (!isEdit && !imageFile && !form.imageUrl.trim())
-                                                 errs.image       = 'Upload an image or paste an image URL';
+  // Removed strict image validation so users can test adding a product without an image
   if (form.stock !== '' && (isNaN(form.stock) || Number(form.stock) < 0))
                                                  errs.stock       = 'Stock must be 0 or more';
   return errs;
@@ -71,7 +71,7 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
   const isEdit  = Boolean(product?._id);
   const fileRef = useRef(null);
 
-  const [form,       setForm]       = useState({ ...BLANK, ...(product || {}) });
+  const [form,       setForm]       = useState({ ...BLANK, ...(product || {}), options: product?.options || [] });
   const [imageFile,  setImageFile]  = useState(null);
   const [imagePreview, setImagePreview] = useState(product?.image || '');
   const [dragOver,   setDragOver]   = useState(false);
@@ -96,6 +96,69 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
     setForm((f) => ({ ...f, [key]: value }));
     if (errors[key]) setErrors((e) => { const n = {...e}; delete n[key]; return n; });
     setBanner({ text: '', type: '' });
+  };
+
+  /* ── Option group builders ────────────────────────────────── */
+  const addOptionGroup = () => {
+    setForm((f) => ({
+      ...f,
+      options: [
+        ...(f.options || []),
+        {
+          name: '',
+          type: 'select',
+          required: false,
+          choices: [{ name: '', price: 0 }],
+        },
+      ],
+    }));
+  };
+
+  const removeOptionGroup = (groupIndex) => {
+    setForm((f) => ({
+      ...f,
+      options: (f.options || []).filter((_, idx) => idx !== groupIndex),
+    }));
+  };
+
+  const handleOptionGroupChange = (groupIndex, key, value) => {
+    setForm((f) => {
+      const updated = [...(f.options || [])];
+      updated[groupIndex] = { ...updated[groupIndex], [key]: value };
+      return { ...f, options: updated };
+    });
+  };
+
+  const addChoice = (groupIndex) => {
+    setForm((f) => {
+      const updated = [...(f.options || [])];
+      const choices = [...(updated[groupIndex].choices || [])];
+      choices.push({ name: '', price: 0 });
+      updated[groupIndex] = { ...updated[groupIndex], choices };
+      return { ...f, options: updated };
+    });
+  };
+
+  const removeChoice = (groupIndex, choiceIndex) => {
+    setForm((f) => {
+      const updated = [...(f.options || [])];
+      const choices = (updated[groupIndex].choices || []).filter((_, idx) => idx !== choiceIndex);
+      updated[groupIndex] = { ...updated[groupIndex], choices };
+      return { ...f, options: updated };
+    });
+  };
+
+  const handleChoiceChange = (groupIndex, choiceIndex, key, value) => {
+    setForm((f) => {
+      const updated = [...(f.options || [])];
+      const choices = [...(updated[groupIndex].choices || [])];
+      choices[choiceIndex] = {
+        ...choices[choiceIndex],
+        [key]: key === 'price' ? Number(value) : value
+      };
+      updated[groupIndex] = { ...updated[groupIndex], choices };
+      return { ...f, options: updated };
+    });
   };
 
   /* ── Image file selection ────────────────────────────────── */
@@ -139,7 +202,13 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
     try {
       const formData = new FormData();
       Object.entries(form).forEach(([k, v]) => {
-        if (v !== '' && v !== null && v !== undefined) formData.append(k, v);
+        if (v !== '' && v !== null && v !== undefined) {
+          if (typeof v === 'object' && k === 'options') {
+            formData.append(k, JSON.stringify(v));
+          } else {
+            formData.append(k, v);
+          }
+        }
       });
       if (imageFile) formData.append('image', imageFile);
 
@@ -359,6 +428,122 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                   <div className={`pf-switch${form[key] ? ' pf-switch--on' : ''}`} aria-hidden="true" />
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* ── Custom Food Options & Add-ons ────────── */}
+          <div className="pf-section">
+            <div className="pf-section-title">🍽️ Food Options & Add-ons (Customizations)</div>
+
+            <div className="pf-options-section">
+              {(form.options || []).map((group, groupIdx) => (
+                <div key={groupIdx} className="pf-option-group">
+                  <div className="pf-option-group__header">
+                    <span className="pf-option-group__title">Option Group #{groupIdx + 1}</span>
+                    <button
+                      type="button"
+                      className="pf-option-group__remove"
+                      onClick={() => removeOptionGroup(groupIdx)}
+                      aria-label={`Remove option group ${groupIdx + 1}`}
+                    >
+                      🗑️ Remove Group
+                    </button>
+                  </div>
+
+                  <div className="pf-row pf-row--3">
+                    <div className="pf-group">
+                      <label className="pf-label">Group Name</label>
+                      <input
+                        type="text"
+                        className="pf-input"
+                        placeholder="e.g. Choose Size, Extra Cheese"
+                        value={group.name}
+                        onChange={(e) => handleOptionGroupChange(groupIdx, 'name', e.target.value)}
+                      />
+                    </div>
+
+                    <div className="pf-group">
+                      <label className="pf-label">Type</label>
+                      <select
+                        className="pf-select"
+                        value={group.type}
+                        onChange={(e) => handleOptionGroupChange(groupIdx, 'type', e.target.value)}
+                      >
+                        <option value="select">Select One (Radio buttons)</option>
+                        <option value="checkbox">Select Multiple (Checkboxes)</option>
+                      </select>
+                    </div>
+
+                    <div className="pf-group" style={{ justifyContent: 'center' }}>
+                      <div
+                        className={`pf-toggle-item${group.required ? ' pf-toggle-item--on' : ''}`}
+                        onClick={() => handleOptionGroupChange(groupIdx, 'required', !group.required)}
+                        role="checkbox"
+                        aria-checked={group.required}
+                        tabIndex={0}
+                        style={{ marginTop: '1.2rem', padding: '0.45rem 0.75rem', minWidth: 'auto' }}
+                        onKeyDown={(e) => { if (e.key === ' ') { e.preventDefault(); handleOptionGroupChange(groupIdx, 'required', !group.required); } }}
+                      >
+                        <span className="pf-toggle-item__label" style={{ fontSize: '0.75rem' }}>Required?</span>
+                        <div className={`pf-switch${group.required ? ' pf-switch--on' : ''}`} style={{ width: '28px', height: '14px' }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Choices list */}
+                  <div className="pf-choices-list">
+                    <span className="pf-label" style={{ fontSize: '0.65rem', marginBottom: '0.2rem' }}>Choices & Prices</span>
+                    {(group.choices || []).map((choice, choiceIdx) => (
+                      <div key={choiceIdx} className="pf-choice-row">
+                        <input
+                          type="text"
+                          className="pf-input"
+                          placeholder="e.g. Large, Extra Chicken"
+                          value={choice.name}
+                          onChange={(e) => handleChoiceChange(groupIdx, choiceIdx, 'name', e.target.value)}
+                        />
+                        <div className="pf-price-wrap">
+                          <span className="pf-price-prefix">₹</span>
+                          <input
+                            type="number"
+                            className="pf-input pf-input--price"
+                            placeholder="0"
+                            value={choice.price || ''}
+                            onChange={(e) => handleChoiceChange(groupIdx, choiceIdx, 'price', e.target.value)}
+                            min={0}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          className="pf-choice-delete"
+                          onClick={() => removeChoice(groupIdx, choiceIdx)}
+                          aria-label={`Remove choice ${choiceIdx + 1}`}
+                          disabled={group.choices.length <= 1}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+
+                    <button
+                      type="button"
+                      className="pf-add-btn"
+                      onClick={() => addChoice(groupIdx)}
+                      style={{ alignSelf: 'flex-start', padding: '0.4rem 0.75rem', marginTop: '0.25rem' }}
+                    >
+                      + Add Choice
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="pf-add-btn pf-btn-add-group"
+                onClick={addOptionGroup}
+              >
+                ➕ Add Option Group
+              </button>
             </div>
           </div>
 

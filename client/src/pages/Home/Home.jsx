@@ -5,7 +5,7 @@ import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import { SkeletonCards } from '../../components/Spinner/Spinner.jsx';
 import './Home.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Static data ─────────────────────────────────────────────── */
 const STATS = [
@@ -61,9 +61,17 @@ export default function Home() {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const res  = await fetch(`${API}/products?isFeatured=true&limit=8`);
-        const data = await res.json();
-        setFeatured(data.products || []);
+        // Fetch latest 8 products; fall back to all if none are featured
+        let res  = await fetch(`${API}/products?isFeatured=true&limit=8`);
+        let data = await res.json();
+        let items = data.products || [];
+        // If no featured items exist yet, show the latest 8 products instead
+        if (items.length === 0) {
+          res  = await fetch(`${API}/products?limit=8&sort=createdAt_desc`);
+          data = await res.json();
+          items = data.products || [];
+        }
+        setFeatured(items);
       } catch {
         setError('Could not load featured items.');
       } finally {

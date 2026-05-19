@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import './Checkout.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 const fmt = (n) => `₹${Number(n).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
 
 /* ── Steps definition ────────────────────────────────────────── */

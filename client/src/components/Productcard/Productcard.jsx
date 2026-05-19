@@ -4,6 +4,18 @@ import { CartContext } from '../../context/CartContext.jsx';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import './ProductCard.css';
 
+const BACKEND = import.meta.env.VITE_API_BASE_URL
+  ? import.meta.env.VITE_API_BASE_URL.replace('/api', '')
+  : 'http://localhost:5001';
+
+/** Resolve image src — prepend backend base for /uploads/ paths */
+const resolveImg = (src) => {
+  if (!src) return '/placeholder-food.jpg';
+  if (src.startsWith('http')) return src;
+  if (src.startsWith('/uploads/')) return `${BACKEND}${src}`;
+  return src;
+};
+
 /* ── Helpers ──────────────────────────────────────────────────── */
 
 /** Render 5 star icons based on a 0–5 rating */
@@ -131,7 +143,7 @@ export default function ProductCard({ product, skeleton = false }) {
       {/* ── Image ────────────────────────────────────────────── */}
       <div className="product-card__image-wrap">
         <img
-          src={image || '/placeholder-food.jpg'}
+          src={resolveImg(image)}
           alt={name}
           className="product-card__image"
           loading="lazy"

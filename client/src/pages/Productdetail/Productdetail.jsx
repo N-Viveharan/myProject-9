@@ -6,7 +6,7 @@ import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import Spinner, { SkeletonCards } from '../../components/Spinner/Spinner.jsx';
 import './ProductDetail.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Star picker ─────────────────────────────────────────────── */
 function StarPicker({ value, onChange }) {

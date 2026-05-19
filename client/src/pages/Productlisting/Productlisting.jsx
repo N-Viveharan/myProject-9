@@ -6,7 +6,7 @@ import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 import { SkeletonCards } from '../../components/Spinner/Spinner.jsx';
 import './ProductListing.css';
 
-const API    = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API    = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 const LIMIT  = 12;
 
 const SORT_OPTIONS = [
