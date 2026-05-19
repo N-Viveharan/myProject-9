@@ -1,0 +1,420 @@
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN PROFILE — FoodieExpress Admin CSS
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --ap-bg: #111009;
+  --ap-surface: #1a1814;
+  --ap-surface2: #231f1a;
+  --ap-accent: #f5a623;
+  --ap-accent-l: rgba(245, 166, 35, 0.12);
+  --ap-border: rgba(255, 255, 255, 0.07);
+  --ap-text: #f0ebe3;
+  --ap-text-mid: #a09a8e;
+  --ap-text-muted: #6e6459;
+  --ap-green: #2ecc71;
+  --ap-red: #e74c3c;
+  --ap-font: 'DM Sans', sans-serif;
+  --ap-display: 'Playfair Display', serif;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-profile-page {
+  min-height: 100vh;
+  background: var(--ap-bg);
+  font-family: var(--ap-font);
+  color: var(--ap-text);
+}
+
+/* ── Header block ────────────────────────────────────────────── */
+.ap-header {
+  background: var(--ap-surface);
+  border-bottom: 1px solid var(--ap-border);
+  padding: 1.5rem 0;
+}
+
+.ap-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.ap-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--ap-accent-l);
+  border: 1px solid rgba(245, 166, 35, 0.25);
+  color: var(--ap-accent);
+  font-family: var(--ap-display);
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.ap-header__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ap-header__name {
+  font-family: var(--ap-display);
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--ap-text);
+}
+
+.ap-header__email {
+  font-size: 0.88rem;
+  color: var(--ap-text-mid);
+  margin: 0;
+}
+
+.ap-header__meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.ap-header__role {
+  color: var(--ap-accent);
+  font-weight: 600;
+}
+
+.ap-header__since {
+  color: var(--ap-text-muted);
+}
+
+/* ── Body Layout ────────────────────────────────────────────── */
+.ap-body {
+  padding: 2rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ── Tabs Navigation ────────────────────────────────────────── */
+.ap-tabs {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--ap-text-muted);
+  padding: 0.75rem 0.25rem;
+  font-family: var(--ap-font);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  margin-bottom: -1px;
+}
+
+.ap-tab:hover {
+  color: var(--ap-text-mid);
+}
+
+.ap-tab.active {
+  color: var(--ap-accent);
+  border-bottom-color: var(--ap-accent);
+}
+
+/* ── Panel Card ──────────────────────────────────────────────── */
+.ap-card {
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.ap-card__title {
+  font-family: var(--ap-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ap-card__sub {
+  font-size: 0.82rem;
+  color: var(--ap-text-muted);
+  margin: 0 0 1.75rem;
+}
+
+/* ── Forms ───────────────────────────────────────────────────── */
+.ap-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 600px;
+}
+
+.ap-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ap-form__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ap-text-mid);
+}
+
+.ap-form__req {
+  color: var(--ap-red);
+}
+
+.ap-form__input {
+  background: var(--ap-surface2);
+  border: 1px solid var(--ap-border);
+  border-radius: 10px;
+  color: var(--ap-text);
+  font-family: var(--ap-font);
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.ap-form__input:focus {
+  outline: none;
+  border-color: var(--ap-accent);
+  box-shadow: 0 0 0 3px var(--ap-accent-l);
+}
+
+.ap-form__input--readonly {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--ap-text-muted);
+  cursor: not-allowed;
+}
+
+.ap-form__input--readonly:focus {
+  border-color: var(--ap-border);
+  box-shadow: none;
+}
+
+.ap-form__input--error {
+  border-color: var(--ap-red);
+}
+
+.ap-form__input--error:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
+
+/* PW Input Visibility Wrapper */
+.ap-form__pw-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.ap-form__pw-wrap .ap-form__input {
+  padding-right: 2.75rem;
+}
+
+.ap-form__pw-toggle {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form Helper/Hint texts */
+.ap-form__hint {
+  font-size: 0.75rem;
+  color: var(--ap-text-muted);
+  margin: 0;
+}
+
+.ap-form__hint--error {
+  color: var(--ap-red);
+}
+
+/* Strength Meter */
+.ap-form__strength {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.ap-form__strength-bar {
+  flex: 1;
+  max-width: 120px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  position: relative;
+}
+
+.ap-form__strength-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.ap-form__strength-bar--weak::after {
+  width: 33%;
+  background: var(--ap-red);
+}
+
+.ap-form__strength-bar--medium::after {
+  width: 66%;
+  background: var(--ap-accent);
+}
+
+.ap-form__strength-bar--strong::after {
+  width: 100%;
+  background: var(--ap-green);
+}
+
+/* Form Footer & Buttons */
+.ap-form__footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ap-form__save-btn {
+  background: var(--ap-accent);
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--ap-font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+.ap-form__save-btn:hover:not(:disabled) {
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(245, 166, 35, 0.25);
+}
+
+.ap-form__save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner anim */
+.ap-form__spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #000;
+  animation: apSpin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes apSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Toast Alert ─────────────────────────────────────────────── */
+.ap-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+  animation: apToastIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes apToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ap-toast--success {
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  color: var(--ap-green);
+}
+
+.ap-toast--error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  color: var(--ap-red);
+}
+
+/* ── Responsive adjustments ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .ap-header {
+    padding: 1rem 0;
+  }
+
+  .ap-header__inner {
+    padding: 0 1.25rem;
+  }
+
+  .ap-body {
+    padding: 1.25rem;
+  }
+
+  .ap-card {
+    padding: 1.25rem;
+  }
+
+  .ap-form__footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ap-form__save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

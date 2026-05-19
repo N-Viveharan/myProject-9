@@ -290,7 +290,7 @@ export default function Topbar({
             </div>
 
             <Link
-              to="/admin/settings/profile"
+              to="/admin/profile"
               className="topbar-dropdown__item"
               role="menuitem"
               onClick={() => setShowUser(false)}

@@ -4,7 +4,7 @@ import { DashboardStats } from '../../components/StatsCard/StatsCard.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import './Dashboard.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 const fmt = (n) =>
   `₹${Number(n).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;

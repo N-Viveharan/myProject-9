@@ -21,6 +21,8 @@ const ManageProducts = lazy(() => import('./pages/Manageproducts/Manageproducts.
 const ManageOrders   = lazy(() => import('./pages/Manageorders/Manageorders.jsx'));
 const ManageUsers    = lazy(() => import('./pages/Manageusers/Manageusers.jsx'));
 const ManageReviews  = lazy(() => import('./pages/ManageReviews/ManageReviews.jsx'));
+const AdminProfile   = lazy(() => import('./pages/AdminProfile/AdminProfile.jsx'));
+const Analytics      = lazy(() => import('./pages/Analytics/Analytics.jsx'));
 const AdminLogin     = lazy(() => import('./pages/AdminLogin/AdminLogin.jsx'));
 const AdminSignup    = lazy(() => import('./pages/AdminSignup/AdminSignup.jsx'));
 const NotFound       = lazy(() => import('./pages/NotFound/NotFound.jsx'));
@@ -264,6 +266,30 @@ function AdminRoutes() {
           <AdminRoute>
             <AdminLayout>
               <ManageReviews token={token} />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      {/* Protected — analytics */}
+      <Route
+        path="/admin/analytics"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <Analytics />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      {/* Protected — admin profile */}
+      <Route
+        path="/admin/profile"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <AdminProfile />
             </AdminLayout>
           </AdminRoute>
         }

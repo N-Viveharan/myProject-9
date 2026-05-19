@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './OrderTable.css';
 
-const API   = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API   = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 const LIMIT = 10;
 
 const fmt = (n) =>

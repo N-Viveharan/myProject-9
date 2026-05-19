@@ -5,7 +5,7 @@ import ProductForm from '../../components/Productform/Productform.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import './Manageproducts.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Edit Product Wrapper ─────────────────────────────────────── */
 function EditProductWrapper({ token, onSuccess, onClose }) {

@@ -1,0 +1,304 @@
+/* ═══════════════════════════════════════════════════════════════
+   ANALYTICS — FoodieExpress Admin CSS
+   Aesthetic: Dark glass, amber accents, elegant layout
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --an-bg:        #111009;
+  --an-surface:   #1a1814;
+  --an-surface2:  #231f1a;
+  --an-border:    rgba(255, 255, 255, 0.08);
+  --an-text:      #f0ebe3;
+  --an-text-mid:  #a09a8e;
+  --an-text-muted:#6e6459;
+  --an-accent:    #f5a623;
+  --an-accent-l:  rgba(245, 166, 35, 0.15);
+  --an-green:     #2ecc71;
+  --an-red:       #e74c3c;
+  --an-blue:      #3498db;
+  --an-font:      'DM Sans', sans-serif;
+  --an-display:   'Playfair Display', serif;
+}
+
+.analytics-page {
+  width: 100%;
+  min-height: 100%;
+  background: var(--an-bg);
+  color: var(--an-text);
+  font-family: var(--an-font);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.an-header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--an-border);
+  background: var(--an-surface);
+}
+
+.an-header__title {
+  font-family: var(--an-display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--an-text);
+}
+
+.an-header__sub {
+  font-size: 0.9rem;
+  color: var(--an-text-muted);
+  margin: 0;
+}
+
+/* ── Body ───────────────────────────────────────────────────── */
+.an-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ── Stats Grid ─────────────────────────────────────────────── */
+.an-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.an-stat-card {
+  background: var(--an-surface);
+  border: 1px solid var(--an-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+}
+
+.an-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 166, 35, 0.3);
+}
+
+.an-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.an-stat-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--an-text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.an-stat-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: var(--an-surface2);
+  border: 1px solid var(--an-border);
+}
+
+.an-stat-icon--rev { color: var(--an-green); }
+.an-stat-icon--users { color: var(--an-blue); }
+.an-stat-icon--orders { color: var(--an-accent); }
+.an-stat-icon--avg { color: #9b59b6; }
+
+.an-stat-val {
+  font-family: var(--an-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--an-text);
+  margin: 0;
+}
+
+/* ── Main Layout (Charts & Lists) ───────────────────────────── */
+.an-main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .an-main-grid { grid-template-columns: 1fr; }
+}
+
+.an-panel {
+  background: var(--an-surface);
+  border: 1px solid var(--an-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.an-panel--full {
+  grid-column: 1 / -1;
+}
+
+.an-panel__title {
+  font-family: var(--an-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--an-text);
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── CSS Bar Chart ──────────────────────────────────────────── */
+.an-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.an-chart-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.an-chart-label {
+  width: 140px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--an-text-mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+.an-chart-track {
+  flex: 1;
+  height: 12px;
+  background: var(--an-surface2);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.an-chart-fill {
+  height: 100%;
+  background: var(--an-accent);
+  border-radius: 6px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.an-chart-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.an-chart-val {
+  width: 60px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--an-text);
+}
+
+/* ── List Area ──────────────────────────────────────────────── */
+.an-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.an-list-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: var(--an-surface2);
+  border: 1px solid var(--an-border);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.an-list-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.an-list-idx {
+  font-family: var(--an-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--an-accent);
+  width: 24px;
+  text-align: center;
+}
+
+.an-list-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.an-list-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--an-text);
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.an-list-sub {
+  font-size: 0.75rem;
+  color: var(--an-text-muted);
+  margin: 0;
+}
+
+/* Loader */
+.an-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  color: var(--an-text-mid);
+  gap: 1rem;
+}
+
+.an-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(245, 166, 35, 0.2);
+  border-top-color: var(--an-accent);
+  border-radius: 50%;
+  animation: anSpin 0.8s linear infinite;
+}
+
+@keyframes anSpin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .an-header { padding: 1.5rem 1.25rem; }
+  .an-body { padding: 1.25rem; gap: 1.5rem; }
+  .an-chart-label { width: 80px; font-size: 0.75rem; }
+}

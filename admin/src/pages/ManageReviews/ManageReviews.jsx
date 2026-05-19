@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './ManageReviews.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Stars Display Component ────────────────────────────────── */
 function Stars({ rating = 0 }) {
