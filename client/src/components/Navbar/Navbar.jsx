@@ -182,20 +182,6 @@ export default function Navbar() {
                       My Orders
                     </Link>
 
-                    {user.role === 'admin' && (
-                      <>
-                        <div className="navbar__dropdown-divider" aria-hidden="true" />
-                        <Link
-                          to="/admin"
-                          className="navbar__dropdown-item"
-                          role="menuitem"
-                          onClick={() => setDropdownOpen(false)}
-                        >
-                          <span className="navbar__dropdown-icon">⚙️</span>
-                          Admin Panel
-                        </Link>
-                      </>
-                    )}
 
                     <div className="navbar__dropdown-divider" aria-hidden="true" />
 
@@ -300,15 +286,7 @@ export default function Navbar() {
               >
                 <span aria-hidden="true">📦</span> My Orders
               </Link>
-              {user.role === 'admin' && (
-                <Link
-                  to="/admin"
-                  className="navbar__mobile-link"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <span aria-hidden="true">⚙️</span> Admin Panel
-                </Link>
-              )}
+
               <div className="navbar__mobile-divider" aria-hidden="true" />
               <button
                 className="navbar__mobile-link"

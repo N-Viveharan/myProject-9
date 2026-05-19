@@ -18,6 +18,7 @@ const Login          = lazy(() => import('./pages/Auth/Login.jsx'));
 const Register       = lazy(() => import('./pages/Auth/Register.jsx'));
 const NotFound       = lazy(() => import('./pages/NotFound/Notfound.jsx'));
 const Offers         = lazy(() => import('./pages/Offers/Offers.jsx'));
+const Profile        = lazy(() => import('./pages/Profile/Profile.jsx'));
 
 /* ── Page-level loading fallback ─────────────────────────────── */
 const PageLoader = () => (
@@ -110,6 +111,14 @@ export default function App() {
                 <Layout hideFooter>
                   <ProtectedRoute>
                     <Checkout />
+                  </ProtectedRoute>
+                </Layout>
+              } />
+
+              <Route path="/profile" element={
+                <Layout>
+                  <ProtectedRoute>
+                    <Profile />
                   </ProtectedRoute>
                 </Layout>
               } />

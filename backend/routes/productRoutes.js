@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import Product from '../models/Product.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -30,6 +31,36 @@ router.get('/categories', async (req, res) => {
   try {
     const categories = await Product.distinct('category');
     res.json({ categories });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @desc    Get all reviews across all products
+// @route   GET /api/products/reviews/all
+// @access  Private/Admin
+router.get('/reviews/all', protect, admin, async (req, res) => {
+  try {
+    const products = await Product.find({}).select('name reviews');
+    let allReviews = [];
+    products.forEach((product) => {
+      if (product.reviews && product.reviews.length > 0) {
+        product.reviews.forEach((review) => {
+          allReviews.push({
+            _id: review._id,
+            productId: product._id,
+            productName: product.name,
+            name: review.name,
+            rating: review.rating,
+            comment: review.comment,
+            user: review.user,
+            createdAt: review.createdAt,
+          });
+        });
+      }
+    });
+    allReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.json({ reviews: allReviews });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -93,18 +124,25 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a product review
 // @route   POST /api/products/:id/reviews
 // @access  Private
-router.post('/:id/reviews', async (req, res) => {
+router.post('/:id/reviews', protect, async (req, res) => {
   try {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
 
     if (product) {
-      // Create a dummy user review (since auth isn't fully integrated here for brevity)
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+
+      if (alreadyReviewed) {
+        return res.status(400).json({ message: 'Product already reviewed' });
+      }
+
       const review = {
-        name: req.user ? req.user.name : 'Guest User',
+        name: req.user.name,
         rating: Number(rating),
         comment,
-        user: req.user ? req.user._id : '60d5ecb8b392d700153ee123', // Dummy ID
+        user: req.user._id,
       };
 
       product.reviews.push(review);
@@ -115,6 +153,37 @@ router.post('/:id/reviews', async (req, res) => {
 
       await product.save();
       res.status(201).json({ message: 'Review added', product });
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @desc    Delete a product review
+// @route   DELETE /api/products/:productId/reviews/:reviewId
+// @access  Private/Admin
+router.delete('/:productId/reviews/:reviewId', protect, admin, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    if (product) {
+      product.reviews = product.reviews.filter(
+        (r) => r._id.toString() !== req.params.reviewId
+      );
+
+      product.numReviews = product.reviews.length;
+      if (product.reviews.length > 0) {
+        product.rating =
+          product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+          product.reviews.length;
+      } else {
+        product.rating = 0;
+      }
+
+      await product.save();
+      res.json({ message: 'Review deleted successfully', product });
     } else {
       res.status(404).json({ message: 'Product not found' });
     }
