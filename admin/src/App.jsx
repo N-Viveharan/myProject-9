@@ -25,6 +25,7 @@ const AdminProfile   = lazy(() => import('./pages/AdminProfile/AdminProfile.jsx'
 const Analytics      = lazy(() => import('./pages/Analytics/Analytics.jsx'));
 const AdminLogin     = lazy(() => import('./pages/AdminLogin/AdminLogin.jsx'));
 const AdminSignup    = lazy(() => import('./pages/AdminSignup/AdminSignup.jsx'));
+const Settings       = lazy(() => import('./pages/Settings/Settings.jsx'));
 const NotFound       = lazy(() => import('./pages/NotFound/NotFound.jsx'));
 
 /* ── Page loading fallback ───────────────────────────────────── */
@@ -278,6 +279,18 @@ function AdminRoutes() {
           <AdminRoute>
             <AdminLayout>
               <Analytics />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      {/* Protected — settings */}
+      <Route
+        path="/admin/settings"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <Settings />
             </AdminLayout>
           </AdminRoute>
         }

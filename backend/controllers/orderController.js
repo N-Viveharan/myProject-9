@@ -295,7 +295,7 @@ export const updateOrderStatus = async (req, res) => {
 export const getDashboardStats = async (req, res) => {
   try {
     const totalOrders = await Order.countDocuments();
-    
+
     // Revenue is the sum of Delivered orders' totalPrice
     const deliveredOrdersDoc = await Order.find({ status: 'Delivered' });
     const totalRevenue = deliveredOrdersDoc.reduce((sum, o) => sum + o.totalPrice, 0);

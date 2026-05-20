@@ -1,0 +1,249 @@
+.settings-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--sb-text);
+  font-family: 'DM Sans', sans-serif;
+  animation: fadeIn 0.4s ease;
+}
+
+.set-header {
+  margin-bottom: 2rem;
+}
+
+.set-header h1 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--sb-text);
+}
+
+.set-header p {
+  margin: 0;
+  color: var(--sb-text-muted);
+  font-size: 0.95rem;
+}
+
+.set-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  color: var(--sb-text-muted);
+  font-size: 1.1rem;
+}
+
+/* Toasts */
+.set-toast {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideDown 0.3s ease;
+}
+
+.set-toast--success {
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.set-toast--error {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Container */
+.set-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.set-section {
+  background: var(--sb-card);
+  border: 1px solid var(--sb-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.set-section h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  color: var(--sb-text);
+  border-bottom: 1px solid var(--sb-border);
+  padding-bottom: 0.75rem;
+}
+
+/* Form Groups */
+.set-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.set-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.set-form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.set-form-row > .set-form-group {
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .set-form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.set-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--sb-text-muted);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.set-form-group input[type="text"],
+.set-form-group input[type="email"],
+.set-form-group input[type="tel"],
+.set-form-group input[type="url"],
+.set-form-group textarea {
+  background: var(--sb-bg);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-text);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.set-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.set-form-group input:focus,
+.set-form-group textarea:focus {
+  outline: none;
+  border-color: var(--sb-primary);
+  box-shadow: 0 0 0 3px rgba(var(--sb-primary-rgb), 0.15);
+}
+
+/* Logo Upload */
+.logo-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logo-preview-box {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background: var(--sb-bg);
+  border: 1px dashed var(--sb-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-preview-box .no-logo {
+  color: var(--sb-text-muted);
+  font-size: 0.85rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-text);
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.upload-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--sb-text-muted);
+}
+
+/* Actions */
+.set-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.set-save-btn {
+  background: var(--sb-primary, #e67e22);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.set-save-btn:hover:not(:disabled) {
+  background: #d35400;
+  transform: translateY(-1px);
+}
+
+.set-save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.set-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

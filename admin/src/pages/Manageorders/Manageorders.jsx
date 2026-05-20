@@ -7,24 +7,24 @@ const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Status tabs ─────────────────────────────────────────────── */
 const STATUS_TABS = [
-  { value: 'all',               label: 'All Orders',       icon: '📦' },
-  { value: 'active',            label: 'Active',           icon: '⚡', pulse: true },
-  { value: 'Placed',            label: 'Placed',           icon: '📋' },
-  { value: 'Confirmed',         label: 'Confirmed',        icon: '✅' },
-  { value: 'Preparing',         label: 'Preparing',        icon: '👨‍🍳' },
-  { value: 'Out for Delivery',  label: 'Out for Delivery', icon: '🚴' },
-  { value: 'Delivered',         label: 'Delivered',        icon: '🎉' },
-  { value: 'Cancelled',         label: 'Cancelled',        icon: '❌' },
+  { value: 'all', label: 'All Orders', icon: '📦' },
+  { value: 'active', label: 'Active', icon: '⚡', pulse: true },
+  { value: 'Placed', label: 'Placed', icon: '📋' },
+  { value: 'Confirmed', label: 'Confirmed', icon: '✅' },
+  { value: 'Preparing', label: 'Preparing', icon: '👨‍🍳' },
+  { value: 'Out for Delivery', label: 'Out for Delivery', icon: '🚴' },
+  { value: 'Delivered', label: 'Delivered', icon: '🎉' },
+  { value: 'Cancelled', label: 'Cancelled', icon: '❌' },
 ];
 
 /* ── Status update confirm modal ─────────────────────────────── */
 function StatusConfirmModal({ orderId, newStatus, onConfirm, onClose, loading }) {
   const STATUS_ICONS = {
-    'Confirmed':        '✅',
-    'Preparing':        '👨‍🍳',
+    'Confirmed': '✅',
+    'Preparing': '👨‍🍳',
     'Out for Delivery': '🚴',
-    'Delivered':        '🎉',
-    'Cancelled':        '❌',
+    'Delivered': '🎉',
+    'Cancelled': '❌',
   };
 
   return (
@@ -84,14 +84,14 @@ function StatusConfirmModal({ orderId, newStatus, onConfirm, onClose, loading })
 export default function ManageOrders({ token, user }) {
   const navigate = useNavigate();
 
-  const [activeTab,    setActiveTab]    = useState('all');
-  const [tabCounts,    setTabCounts]    = useState({});
-  const [tableKey,     setTableKey]     = useState(0);
-  const [alert,        setAlert]        = useState({ text: '', type: '' });
+  const [activeTab, setActiveTab] = useState('all');
+  const [tabCounts, setTabCounts] = useState({});
+  const [tableKey, setTableKey] = useState(0);
+  const [alert, setAlert] = useState({ text: '', type: '' });
 
   /* Status update confirm state */
   const [pendingStatus, setPendingStatus] = useState(null); // { orderId, newStatus }
-  const [updating,      setUpdating]      = useState(false);
+  const [updating, setUpdating] = useState(false);
 
   const alertTimer = useRef(null);
 
@@ -106,7 +106,7 @@ export default function ManageOrders({ token, user }) {
   /* ── Fetch tab counts ────────────────────────────────────── */
   const fetchCounts = useCallback(async () => {
     try {
-      const res  = await fetch(`${API}/orders?limit=200`, {
+      const res = await fetch(`${API}/orders?limit=200`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -114,7 +114,7 @@ export default function ManageOrders({ token, user }) {
 
       const orders = data.orders || [];
       const counts = { all: orders.length };
-      const active = ['Placed','Confirmed','Preparing','Out for Delivery'];
+      const active = ['Placed', 'Confirmed', 'Preparing', 'Out for Delivery'];
 
       counts.active = orders.filter((o) => active.includes(o.status)).length;
       STATUS_TABS.slice(2).forEach(({ value }) => {
@@ -137,10 +137,10 @@ export default function ManageOrders({ token, user }) {
     const { orderId, newStatus } = pendingStatus;
     setUpdating(true);
     try {
-      const res  = await fetch(`${API}/orders/${orderId}/status`, {
-        method:  'PUT',
+      const res = await fetch(`${API}/orders/${orderId}/status`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body:    JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ status: newStatus }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Update failed');
@@ -158,13 +158,13 @@ export default function ManageOrders({ token, user }) {
   /* ── Export all orders CSV ───────────────────────────────── */
   const handleExportAll = async () => {
     try {
-      const res  = await fetch(`${API}/orders?limit=1000`, {
+      const res = await fetch(`${API}/orders?limit=1000`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       const orders = data.orders || [];
-      const headers = ['Order ID','Customer','Email','Items','Total','Status','Payment','Date'];
-      const rows    = orders.map((o) => [
+      const headers = ['Order ID', 'Customer', 'Email', 'Items', 'Total', 'Status', 'Payment', 'Date'];
+      const rows = orders.map((o) => [
         o._id?.slice(-8).toUpperCase(),
         o.user?.name || 'N/A',
         o.user?.email || '',
@@ -174,10 +174,10 @@ export default function ManageOrders({ token, user }) {
         o.paymentMethod,
         new Date(o.createdAt).toLocaleDateString('en-IN'),
       ]);
-      const csv  = [headers, ...rows].map((r) => r.map((v) => `"${v}"`).join(',')).join('\n');
+      const csv = [headers, ...rows].map((r) => r.map((v) => `"${v}"`).join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a'); a.href = url;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
       a.download = `all-orders-${Date.now()}.csv`; a.click();
       URL.revokeObjectURL(url);
       setAlert({ text: `Exported ${orders.length} orders to CSV`, type: 'success' });
@@ -268,11 +268,11 @@ export default function ManageOrders({ token, user }) {
       {/* ── Status confirm modal ───────────────────────────── */}
       {pendingStatus && (
         <StatusConfirmModal
-          orderId   = {pendingStatus.orderId}
-          newStatus = {pendingStatus.newStatus}
-          onConfirm = {handleStatusConfirm}
-          onClose   = {() => !updating && setPendingStatus(null)}
-          loading   = {updating}
+          orderId={pendingStatus.orderId}
+          newStatus={pendingStatus.newStatus}
+          onConfirm={handleStatusConfirm}
+          onClose={() => !updating && setPendingStatus(null)}
+          loading={updating}
         />
       )}
     </div>

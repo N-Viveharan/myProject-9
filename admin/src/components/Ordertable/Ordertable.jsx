@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './OrderTable.css';
 
-const API   = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 const LIMIT = 10;
 
 const fmt = (n) =>
@@ -13,26 +13,26 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_CLS = {
-  'Placed':           'placed',
-  'Confirmed':        'confirmed',
-  'Preparing':        'preparing',
+  'Placed': 'placed',
+  'Confirmed': 'confirmed',
+  'Preparing': 'preparing',
   'Out for Delivery': 'out',
-  'Delivered':        'delivered',
-  'Cancelled':        'cancelled',
+  'Delivered': 'delivered',
+  'Cancelled': 'cancelled',
 };
 
 /* ── Revenue strip ───────────────────────────────────────────── */
 function RevenueStrip({ orders }) {
-  const delivered  = orders.filter((o) => o.status === 'Delivered');
-  const active     = orders.filter((o) => !['Delivered','Cancelled'].includes(o.status));
-  const cancelled  = orders.filter((o) => o.status === 'Cancelled');
-  const totalRev   = delivered.reduce((s, o) => s + o.totalPrice, 0);
+  const delivered = orders.filter((o) => o.status === 'Delivered');
+  const active = orders.filter((o) => !['Delivered', 'Cancelled'].includes(o.status));
+  const cancelled = orders.filter((o) => o.status === 'Cancelled');
+  const totalRev = delivered.reduce((s, o) => s + o.totalPrice, 0);
 
   const cards = [
-    { label: 'Total Orders',     val: orders.length,    sub: 'all time',              dot: '#a09a8e' },
-    { label: 'Revenue',          val: fmt(totalRev),    sub: 'from delivered orders', dot: '#2ecc71' },
-    { label: 'Active Orders',    val: active.length,    sub: 'in progress',           dot: '#f5a623' },
-    { label: 'Cancelled',        val: cancelled.length, sub: 'this view',             dot: '#e74c3c' },
+    { label: 'Total Orders', val: orders.length, sub: 'all time', dot: '#a09a8e' },
+    { label: 'Revenue', val: fmt(totalRev), sub: 'from delivered orders', dot: '#2ecc71' },
+    { label: 'Active Orders', val: active.length, sub: 'in progress', dot: '#f5a623' },
+    { label: 'Cancelled', val: cancelled.length, sub: 'this view', dot: '#e74c3c' },
   ];
 
   return (
@@ -164,7 +164,7 @@ function OrderDrawer({ order }) {
               </div>
               <div className="ot-drawer-price-row" style={{ padding: '0.2rem 0 0' }}>
                 <span>Placed</span>
-                <span>{new Date(order.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</span>
+                <span>{new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
               </div>
             </div>
           </div>
@@ -185,19 +185,19 @@ function OrderDrawer({ order }) {
  *   token {string} — admin JWT
  */
 export default function OrderTable({ token }) {
-  const [orders,    setOrders]    = useState([]);
-  const [total,     setTotal]     = useState(0);
-  const [page,      setPage]      = useState(1);
-  const [loading,   setLoading]   = useState(true);
-  const [error,     setError]     = useState('');
+  const [orders, setOrders] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const [search,    setSearch]    = useState('');
-  const [status,    setStatus]    = useState('all');
-  const [sortBy,    setSortBy]    = useState('createdAt');
-  const [sortDir,   setSortDir]   = useState('desc');
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortDir, setSortDir] = useState('desc');
 
   const [expandedId, setExpandedId] = useState(null);
-  const [updating,   setUpdating]   = useState(null);
+  const [updating, setUpdating] = useState(null);
 
   const debounceRef = useRef(null);
 
@@ -209,7 +209,7 @@ export default function OrderTable({ token }) {
       const params = new URLSearchParams({ page, limit: LIMIT });
       if (status !== 'all') params.set('status', status);
 
-      const res  = await fetch(`${API}/orders?${params}`, {
+      const res = await fetch(`${API}/orders?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -233,7 +233,7 @@ export default function OrderTable({ token }) {
         let aVal = a[sortBy], bVal = b[sortBy];
         if (sortBy === 'totalPrice') { aVal = Number(aVal); bVal = Number(bVal); }
         if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
-        if (aVal > bVal) return sortDir === 'asc' ?  1 : -1;
+        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
         return 0;
       });
 
@@ -261,9 +261,9 @@ export default function OrderTable({ token }) {
     );
     try {
       const res = await fetch(`${API}/orders/${orderId}/status`, {
-        method:  'PUT',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body:    JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ status: newStatus }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
@@ -287,8 +287,8 @@ export default function OrderTable({ token }) {
 
   /* ── Export CSV ──────────────────────────────────────────── */
   const handleExport = () => {
-    const headers = ['Order ID','Customer','Items','Total','Status','Payment','Date'];
-    const rows    = orders.map((o) => [
+    const headers = ['Order ID', 'Customer', 'Items', 'Total', 'Status', 'Payment', 'Date'];
+    const rows = orders.map((o) => [
       o._id?.slice(-8).toUpperCase(),
       o.user?.name || 'N/A',
       o.items?.map((i) => i.name).join(' | '),
@@ -297,17 +297,17 @@ export default function OrderTable({ token }) {
       o.paymentMethod,
       new Date(o.createdAt).toLocaleDateString('en-IN'),
     ]);
-    const csv  = [headers, ...rows].map((r) => r.join(',')).join('\n');
+    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a'); a.href = url;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
     a.download = `orders-${Date.now()}.csv`; a.click();
     URL.revokeObjectURL(url);
   };
 
   const totalPages = Math.max(1, Math.ceil(total / LIMIT));
-  const pageStart  = (page - 1) * LIMIT + 1;
-  const pageEnd    = Math.min(page * LIMIT, total);
+  const pageStart = (page - 1) * LIMIT + 1;
+  const pageEnd = Math.min(page * LIMIT, total);
 
   const getInitials = (name = '') =>
     name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2) || '?';
@@ -378,13 +378,13 @@ export default function OrderTable({ token }) {
         <table className="ot-table" role="grid" aria-label="Customer orders">
           <thead>
             <tr>
-              {thSort('Order ID',  '_id')}
-              {thSort('Customer',  'user')}
+              {thSort('Order ID', '_id')}
+              {thSort('Customer', 'user')}
               <th>Items</th>
-              {thSort('Amount',    'totalPrice')}
-              {thSort('Status',    'status')}
+              {thSort('Amount', 'totalPrice')}
+              {thSort('Status', 'status')}
               <th>Update Status</th>
-              {thSort('Date',      'createdAt')}
+              {thSort('Date', 'createdAt')}
               <th>Actions</th>
             </tr>
           </thead>
