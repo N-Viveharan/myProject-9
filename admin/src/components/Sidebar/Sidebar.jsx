@@ -29,6 +29,7 @@ const NAV_SECTIONS = [
       { icon: '📦', label: 'Orders',       path: '/admin/orders',  badgeKey: 'orders' },
       { icon: '👥', label: 'Customers',    path: '/admin/users' },
       { icon: '⭐', label: 'Reviews',      path: '/admin/reviews', badgeKey: 'reviews' },
+      { icon: '🎁', label: 'Offers',       path: '/admin/offers' },
     ],
   },
   {

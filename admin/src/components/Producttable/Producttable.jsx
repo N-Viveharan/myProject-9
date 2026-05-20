@@ -14,6 +14,14 @@ const CATEGORIES = [
   'Breakfast','Sides','Other',
 ];
 
+const BASE_URL = API.replace(/\/api\/?$/, '');
+const getImageUrl = (url) => {
+  if (!url) return '/placeholder-food.jpg';
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  if (url.startsWith('/uploads')) return `${BASE_URL}${url}`;
+  return url;
+};
+
 /* ── Sort icon ───────────────────────────────────────────────── */
 function SortIcon({ field, sortBy, sortDir }) {
   const active = sortBy === field;
@@ -393,7 +401,7 @@ export default function ProductTable({ token, onEdit }) {
                     <td>
                       <div className="pt-product-cell">
                         <img
-                          src={product.image || '/placeholder-food.jpg'}
+                          src={getImageUrl(product.image)}
                           alt={product.name}
                           className="pt-product-img"
                           loading="lazy"

@@ -21,6 +21,7 @@ const ManageProducts = lazy(() => import('./pages/Manageproducts/Manageproducts.
 const ManageOrders   = lazy(() => import('./pages/Manageorders/Manageorders.jsx'));
 const ManageUsers    = lazy(() => import('./pages/Manageusers/Manageusers.jsx'));
 const ManageReviews  = lazy(() => import('./pages/ManageReviews/ManageReviews.jsx'));
+const ManageOffers   = lazy(() => import('./pages/ManageOffers/ManageOffers.jsx'));
 const AdminProfile   = lazy(() => import('./pages/AdminProfile/AdminProfile.jsx'));
 const Analytics      = lazy(() => import('./pages/Analytics/Analytics.jsx'));
 const AdminLogin     = lazy(() => import('./pages/AdminLogin/AdminLogin.jsx'));
@@ -267,6 +268,18 @@ function AdminRoutes() {
           <AdminRoute>
             <AdminLayout>
               <ManageReviews token={token} />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      {/* Protected — manage offers */}
+      <Route
+        path="/admin/offers"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <ManageOffers token={token} />
             </AdminLayout>
           </AdminRoute>
         }

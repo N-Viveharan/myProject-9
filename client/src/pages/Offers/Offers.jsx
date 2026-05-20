@@ -1,50 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Offers.css';
 
-/* ── Static coupon data (mirrors CartContext) ────────────────── */
-const COUPONS = [
-  {
-    code: 'WELCOME10',
-    icon: '🎁',
-    type: 'percent',
-    value: '10% OFF',
-    headline: 'Welcome Discount',
-    desc: 'Get 10% off your very first order. No minimum spend required — just our gift to you.',
-    minOrder: null,
-    badge: 'Most Popular',
-  },
-  {
-    code: 'FLAT50',
-    icon: '💸',
-    type: 'flat',
-    value: '₹50 OFF',
-    headline: 'Flat Fifty',
-    desc: 'Enjoy a flat ₹50 discount on any order above ₹300. Great for everyday meals.',
-    minOrder: '₹300',
-    badge: null,
-  },
-  {
-    code: 'FREESHIP',
-    icon: '🚴',
-    type: 'ship',
-    value: 'FREE DELIVERY',
-    headline: 'Zero Delivery Fee',
-    desc: 'Wave goodbye to delivery charges. Use this code and we cover the shipping, always.',
-    minOrder: null,
-    badge: 'Limited',
-  },
-  {
-    code: 'FEAST20',
-    icon: '🍽️',
-    type: 'feast',
-    value: '20% OFF',
-    headline: 'Feast Mode',
-    desc: 'Planning a big spread? Save 20% on orders of ₹600 or more. The more you order, the more you save.',
-    minOrder: '₹600',
-    badge: 'Best Value',
-  },
-];
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 const PROMO_BANNERS = [
   {
@@ -77,6 +35,23 @@ const HOW_STEPS = [
 /* ── Component ───────────────────────────────────────────────── */
 export default function Offers() {
   const [copied, setCopied] = useState(null);
+  const [offers, setOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/offers`);
+        const data = await res.json();
+        setOffers(data.offers || []);
+      } catch (error) {
+        console.error('Failed to fetch offers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOffers();
+  }, []);
 
   const handleCopy = (code) => {
     navigator.clipboard.writeText(code);
@@ -119,15 +94,21 @@ export default function Offers() {
 
           <div className="offers-hero__visual" aria-hidden="true">
             <div className="offers-hero__tag-stack">
-              {COUPONS.map((c, i) => (
+              {offers.slice(0, 4).map((c, i) => (
                 <div
                   key={c.code}
                   className={`offers-hero__floating-tag offers-hero__floating-tag--${i}`}
                 >
-                  <span>{c.icon}</span>
+                  <span>{c.icon || '🎁'}</span>
                   <strong>{c.value}</strong>
                 </div>
               ))}
+              {offers.length === 0 && !loading && (
+                <div className="offers-hero__floating-tag offers-hero__floating-tag--0">
+                  <span>✨</span>
+                  <strong>More Coming Soon</strong>
+                </div>
+              )}
               <div className="offers-hero__center-circle">
                 🔥<br /><span>Hot Deals</span>
               </div>
@@ -171,58 +152,71 @@ export default function Offers() {
             </p>
           </div>
 
-          <div className="offers-coupon-grid" role="list">
-            {COUPONS.map((coupon) => (
-              <article
-                key={coupon.code}
-                className={`coupon-card coupon-card--${coupon.type}`}
-                role="listitem"
-                aria-label={`Coupon ${coupon.code}: ${coupon.headline}`}
-              >
-                {coupon.badge && (
-                  <div className="coupon-card__badge" aria-label={`Badge: ${coupon.badge}`}>
-                    {coupon.badge}
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-muted)' }}>
+              <span className="spinner" style={{ fontSize: '2rem', display: 'block', marginBottom: '1rem' }}>⌛</span>
+              Loading latest offers...
+            </div>
+          ) : offers.length > 0 ? (
+            <div className="offers-coupon-grid" role="list">
+              {offers.map((coupon) => (
+                <article
+                  key={coupon.code}
+                  className={`coupon-card coupon-card--${coupon.type || 'percent'}`}
+                  role="listitem"
+                  aria-label={`Coupon ${coupon.code}: ${coupon.headline}`}
+                >
+                  {coupon.badge && (
+                    <div className="coupon-card__badge" aria-label={`Badge: ${coupon.badge}`}>
+                      {coupon.badge}
+                    </div>
+                  )}
+
+                  <div className="coupon-card__top">
+                    <div className="coupon-card__icon-wrap" aria-hidden="true">
+                      {coupon.icon || '🎁'}
+                    </div>
+                    <div className="coupon-card__value" aria-label={`Discount: ${coupon.value}`}>
+                      {coupon.value}
+                    </div>
                   </div>
-                )}
 
-                <div className="coupon-card__top">
-                  <div className="coupon-card__icon-wrap" aria-hidden="true">
-                    {coupon.icon}
+                  <h3 className="coupon-card__headline">{coupon.headline}</h3>
+                  <p className="coupon-card__desc">{coupon.desc}</p>
+
+                  {coupon.minOrder && (
+                    <div className="coupon-card__min">
+                      <span aria-hidden="true">📦</span> Min. order: <strong>{coupon.minOrder}</strong>
+                    </div>
+                  )}
+
+                  <div className="coupon-card__divider" aria-hidden="true">
+                    <span />
+                    <span />
                   </div>
-                  <div className="coupon-card__value" aria-label={`Discount: ${coupon.value}`}>
-                    {coupon.value}
+
+                  <div className="coupon-card__footer">
+                    <span className="coupon-card__code" aria-label={`Code: ${coupon.code}`}>
+                      {coupon.code}
+                    </span>
+                    <button
+                      className={`coupon-card__copy${copied === coupon.code ? ' copied' : ''}`}
+                      onClick={() => handleCopy(coupon.code)}
+                      aria-label={copied === coupon.code ? 'Copied!' : `Copy code ${coupon.code}`}
+                    >
+                      {copied === coupon.code ? '✓ Copied!' : 'Copy Code'}
+                    </button>
                   </div>
-                </div>
-
-                <h3 className="coupon-card__headline">{coupon.headline}</h3>
-                <p className="coupon-card__desc">{coupon.desc}</p>
-
-                {coupon.minOrder && (
-                  <div className="coupon-card__min">
-                    <span aria-hidden="true">📦</span> Min. order: <strong>{coupon.minOrder}</strong>
-                  </div>
-                )}
-
-                <div className="coupon-card__divider" aria-hidden="true">
-                  <span />
-                  <span />
-                </div>
-
-                <div className="coupon-card__footer">
-                  <span className="coupon-card__code" aria-label={`Code: ${coupon.code}`}>
-                    {coupon.code}
-                  </span>
-                  <button
-                    className={`coupon-card__copy${copied === coupon.code ? ' copied' : ''}`}
-                    onClick={() => handleCopy(coupon.code)}
-                    aria-label={copied === coupon.code ? 'Copied!' : `Copy code ${coupon.code}`}
-                  >
-                    {copied === coupon.code ? '✓ Copied!' : 'Copy Code'}
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '4rem 0', background: 'var(--color-surface)', borderRadius: '24px', border: '1px dashed var(--color-border)' }}>
+              <span style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>😲</span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>No active offers right now</h3>
+              <p style={{ color: 'var(--color-text-muted)' }}>Check back later for exciting new deals!</p>
+            </div>
+          )}
         </div>
       </section>
 

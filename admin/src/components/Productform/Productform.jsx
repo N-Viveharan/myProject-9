@@ -22,6 +22,14 @@ const CATEGORIES = [
   { value: 'Other',      icon: '✨', label: 'Other' },
 ];
 
+const BASE_URL = API.replace(/\/api\/?$/, '');
+const getImageUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('blob:') || url.startsWith('http') || url.startsWith('data:')) return url;
+  if (url.startsWith('/uploads')) return `${BASE_URL}${url}`;
+  return url;
+};
+
 /* ── Blank form state ────────────────────────────────────────── */
 const BLANK = {
   name:            '',
@@ -553,7 +561,7 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
 
             {imagePreview ? (
               <div className="pf-image-preview">
-                <img src={imagePreview} alt="Preview" onError={() => setImagePreview('')} />
+                <img src={getImageUrl(imagePreview)} alt="Preview" onError={() => setImagePreview('')} />
                 <button className="pf-image-preview__remove" onClick={removeImage} type="button" aria-label="Remove image">✕</button>
               </div>
             ) : (

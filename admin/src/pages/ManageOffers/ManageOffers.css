@@ -1,0 +1,302 @@
+/* ═══════════════════════════════════════════════════════════════
+   MANAGE OFFERS PAGE — FoodieExpress Admin
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --mo-bg:       #111009;
+  --mo-surface:  #1a1814;
+  --mo-surface-hover: #221f1a;
+  --mo-accent:   #f5a623;
+  --mo-accent-d: #c4700f;
+  --mo-border:   rgba(255,255,255,0.08);
+  --mo-text:     #f0ebe3;
+  --mo-text-mid: #a09a8e;
+  --mo-text-muted: #6e6459;
+  --mo-font:     'DM Sans', sans-serif;
+  --mo-display:  'Playfair Display', serif;
+  --transition:  all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.manage-offers {
+  min-height: 100vh;
+  background: var(--mo-bg);
+  font-family: var(--mo-font);
+  color: var(--mo-text);
+  padding-bottom: 4rem;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.page-header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--mo-border);
+  background: var(--mo-surface);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-family: var(--mo-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--mo-text);
+  margin: 0 0 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-title::before {
+  content: '🎁';
+  font-size: 1.8rem;
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: var(--mo-text-muted);
+  margin: 0;
+}
+
+.mo-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--mo-accent);
+  color: #1a1814;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--mo-font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.25);
+}
+
+.mo-btn-add:hover {
+  background: var(--mo-accent-d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+}
+
+/* ── Content Area ────────────────────────────────────────────── */
+.mo-error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #e74c3c;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin: 2rem;
+  font-size: 0.9rem;
+}
+
+.mo-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--mo-surface);
+  border: 1px dashed var(--mo-border);
+  border-radius: 16px;
+  margin: 2rem;
+}
+
+.mo-empty-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.mo-empty h3 {
+  font-family: var(--mo-display);
+  font-size: 1.5rem;
+  color: var(--mo-text);
+  margin: 0 0 0.5rem;
+}
+
+.mo-empty p {
+  color: var(--mo-text-muted);
+  margin: 0;
+}
+
+/* ── Grid & Cards ────────────────────────────────────────────── */
+.mo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.mo-card {
+  background: var(--mo-surface);
+  border: 1px solid var(--mo-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.mo-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 166, 35, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--mo-accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mo-card:hover::before {
+  opacity: 1;
+}
+
+.mo-card--inactive {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+.mo-card--inactive:hover {
+  opacity: 0.8;
+  filter: grayscale(50%);
+}
+
+.mo-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.mo-card__icon {
+  font-size: 2.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid var(--mo-border);
+}
+
+.mo-card__badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  color: var(--mo-text-mid);
+  border: 1px solid var(--mo-border);
+}
+
+.mo-card__value {
+  font-family: var(--mo-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--mo-accent);
+  margin: 0 0 0.5rem;
+  line-height: 1;
+}
+
+.mo-card__title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--mo-text);
+  margin-bottom: 0.5rem;
+}
+
+.mo-card__desc {
+  font-size: 0.85rem;
+  color: var(--mo-text-muted);
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+  flex: 1;
+}
+
+.mo-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.8rem;
+  padding: 1rem 0;
+  border-top: 1px dashed var(--mo-border);
+  border-bottom: 1px dashed var(--mo-border);
+  margin-bottom: 1.25rem;
+  color: var(--mo-text-muted);
+}
+
+.mo-card__meta strong {
+  color: var(--mo-text);
+  font-family: monospace;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.mo-card__highlight {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--mo-accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.mo-card__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mo-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--mo-text-mid);
+}
+
+.mo-status::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.mo-status--active::before { background: #2ecc71; box-shadow: 0 0 8px rgba(46, 204, 113, 0.5); }
+.mo-status--inactive::before { background: #e74c3c; box-shadow: 0 0 8px rgba(231, 76, 60, 0.5); }
+
+.mo-btn-delete {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  font-family: var(--mo-font);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.mo-btn-delete:hover {
+  background: #e74c3c;
+  color: #fff;
+}

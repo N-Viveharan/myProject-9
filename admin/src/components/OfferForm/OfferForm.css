@@ -1,0 +1,209 @@
+:root {
+  --mof-bg:       #111009;
+  --mof-surface:  #1a1814;
+  --mof-surface-hover: #221f1a;
+  --mof-accent:   #f5a623;
+  --mof-accent-d: #c4700f;
+  --mof-border:   rgba(255,255,255,0.08);
+  --mof-text:     #f0ebe3;
+  --mof-text-mid: #a09a8e;
+  --mof-text-muted: #6e6459;
+  --mof-font:     'DM Sans', sans-serif;
+  --mof-display:  'Playfair Display', serif;
+  --transition:   all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.offer-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.offer-modal {
+  background: var(--mof-surface);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  border: 1px solid var(--mof-border);
+  font-family: var(--mof-font);
+  color: var(--mof-text);
+}
+
+.offer-modal__header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--mof-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.offer-modal__header h2 {
+  margin: 0;
+  font-family: var(--mof-display);
+  font-size: 1.5rem;
+  color: var(--mof-text);
+  font-weight: 700;
+}
+
+.offer-modal__close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--mof-text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.offer-modal__close:hover {
+  color: #e74c3c;
+}
+
+.offer-modal__error {
+  margin: 1rem 2rem 0;
+  padding: 0.75rem;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #e74c3c;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.offer-form {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mof-text-mid);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem 1rem;
+  background: var(--mof-bg);
+  border: 1px solid var(--mof-border);
+  border-radius: 8px;
+  font-family: var(--mof-font);
+  color: var(--mof-text);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--mof-text-muted);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--mof-accent);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+}
+
+.form-group-checkbox {
+  margin-top: 0.5rem;
+}
+
+.form-group-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--mof-text);
+  cursor: pointer;
+}
+
+.form-group-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--mof-accent);
+  cursor: pointer;
+  background: var(--mof-bg);
+  border: 1px solid var(--mof-border);
+}
+
+.offer-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--mof-border);
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--mof-border);
+  border-radius: 8px;
+  color: var(--mof-text-mid);
+  font-family: var(--mof-font);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--mof-text);
+}
+
+.btn-submit {
+  padding: 0.75rem 1.5rem;
+  background: var(--mof-accent);
+  border: none;
+  border-radius: 8px;
+  color: #1a1814;
+  font-family: var(--mof-font);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.25);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--mof-accent-d);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+}
+
+.btn-cancel:disabled,
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

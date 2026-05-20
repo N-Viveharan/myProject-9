@@ -132,78 +132,100 @@ export default function Navbar() {
               )}
             </Link>
 
-            {/* Auth area */}
-            {user ? (
-              /* ── User dropdown ──────────────────────────────── */
-              <div className="navbar__user" ref={dropdownRef}>
-                <button
-                  className="navbar__avatar-btn"
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  aria-expanded={dropdownOpen}
-                  aria-haspopup="menu"
-                  aria-label="User menu"
-                >
-                  <div className="navbar__avatar">
-                    {user.avatar
-                      ? <img src={user.avatar} alt={user.name} />
-                      : getInitials(user.name)
-                    }
-                  </div>
-                  <span className="navbar__avatar-name">{user.name.split(' ')[0]}</span>
-                  <span className="navbar__avatar-chevron" aria-hidden="true">▼</span>
-                </button>
+            {/* Auth area - Always show Profile icon */}
+            <div className="navbar__user" ref={dropdownRef}>
+              <button
+                className="navbar__avatar-btn"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                aria-expanded={dropdownOpen}
+                aria-haspopup="menu"
+                aria-label="User menu"
+              >
+                <div className="navbar__avatar">
+                  {user?.avatar
+                    ? <img src={user.avatar} alt={user?.name || 'User'} />
+                    : getInitials(user?.name || 'Guest User')
+                  }
+                </div>
+                <span className="navbar__avatar-name">{user?.name ? user.name.split(' ')[0] : 'Guest'}</span>
+                <span className="navbar__avatar-chevron" aria-hidden="true">▼</span>
+              </button>
 
-                {dropdownOpen && (
-                  <div className="navbar__dropdown" role="menu">
-                    <div className="navbar__dropdown-header">
-                      <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
-                        {user.name}
-                      </strong>
-                      <div className="navbar__dropdown-email">{user.email}</div>
-                    </div>
+              {dropdownOpen && (
+                <div className="navbar__dropdown" role="menu">
+                  {user ? (
+                    <>
+                      <div className="navbar__dropdown-header">
+                        <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
+                          {user.name}
+                        </strong>
+                        <div className="navbar__dropdown-email">{user.email}</div>
+                      </div>
 
-                    <Link
-                      to="/profile"
-                      className="navbar__dropdown-item"
-                      role="menuitem"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <span className="navbar__dropdown-icon">👤</span>
-                      My Profile
-                    </Link>
+                      <Link
+                        to="/profile"
+                        className="navbar__dropdown-item"
+                        role="menuitem"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <span className="navbar__dropdown-icon">👤</span>
+                        My Profile
+                      </Link>
 
-                    <Link
-                      to="/orders"
-                      className="navbar__dropdown-item"
-                      role="menuitem"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <span className="navbar__dropdown-icon">📦</span>
-                      My Orders
-                    </Link>
+                      <Link
+                        to="/orders"
+                        className="navbar__dropdown-item"
+                        role="menuitem"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <span className="navbar__dropdown-icon">📦</span>
+                        My Orders
+                      </Link>
 
+                      <div className="navbar__dropdown-divider" aria-hidden="true" />
 
-                    <div className="navbar__dropdown-divider" aria-hidden="true" />
+                      <button
+                        className="navbar__dropdown-item navbar__dropdown-item--danger"
+                        role="menuitem"
+                        onClick={handleLogout}
+                      >
+                        <span className="navbar__dropdown-icon">🚪</span>
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="navbar__dropdown-header">
+                        <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
+                          Welcome!
+                        </strong>
+                        <div className="navbar__dropdown-email">Sign in to manage orders</div>
+                      </div>
 
-                    <button
-                      className="navbar__dropdown-item navbar__dropdown-item--danger"
-                      role="menuitem"
-                      onClick={handleLogout}
-                    >
-                      <span className="navbar__dropdown-icon">🚪</span>
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
+                      <Link
+                        to="/login"
+                        className="navbar__dropdown-item"
+                        role="menuitem"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <span className="navbar__dropdown-icon">🔑</span>
+                        Log in
+                      </Link>
 
-            ) : (
-              /* ── Auth buttons ───────────────────────────────── */
-              <div className="navbar__auth">
-                <Link to="/login"    className="navbar__btn-login">Log in</Link>
-                <Link to="/register" className="navbar__btn-register">Sign up</Link>
-              </div>
-            )}
+                      <Link
+                        to="/register"
+                        className="navbar__dropdown-item"
+                        role="menuitem"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <span className="navbar__dropdown-icon">✨</span>
+                        Sign up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Hamburger */}
             <button
@@ -272,47 +294,26 @@ export default function Navbar() {
 
           {user ? (
             <>
-              <Link
-                to="/profile"
-                className="navbar__mobile-link"
-                onClick={() => setMobileOpen(false)}
-              >
+              <Link to="/profile" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
                 <span aria-hidden="true">👤</span> My Profile
               </Link>
-              <Link
-                to="/orders"
-                className="navbar__mobile-link"
-                onClick={() => setMobileOpen(false)}
-              >
+              <Link to="/orders" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
                 <span aria-hidden="true">📦</span> My Orders
               </Link>
-
               <div className="navbar__mobile-divider" aria-hidden="true" />
-              <button
-                className="navbar__mobile-link"
-                style={{ color: '#e74c3c' }}
-                onClick={handleLogout}
-              >
+              <button className="navbar__mobile-link" style={{ color: '#e74c3c' }} onClick={handleLogout}>
                 <span aria-hidden="true">🚪</span> Sign Out
               </button>
             </>
           ) : (
-            <div className="navbar__mobile-auth">
-              <Link
-                to="/login"
-                className="navbar__btn-login"
-                onClick={() => setMobileOpen(false)}
-              >
-                Log in
+            <>
+              <Link to="/login" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
+                <span aria-hidden="true">🔑</span> Log in
               </Link>
-              <Link
-                to="/register"
-                className="navbar__btn-register"
-                onClick={() => setMobileOpen(false)}
-              >
-                Sign up free
+              <Link to="/register" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
+                <span aria-hidden="true">✨</span> Sign up
               </Link>
-            </div>
+            </>
           )}
         </nav>
       )}

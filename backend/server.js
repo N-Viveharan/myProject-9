@@ -7,6 +7,7 @@ import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
+import offerRoutes from './routes/offerRoutes.js';
 import path from 'path';
 
 // Load environment variables
@@ -29,6 +30,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/settings', settingRoutes);
+app.use('/api/offers', offerRoutes);
 
 // Health check endpoint
 app.get('/', (req, res) => {
