@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  AlertTriangle, Trash2, UtensilsCrossed, Search, 
+  Frown, Star, Eye, Pencil, ChevronLeft, ChevronRight, Plus
+} from 'lucide-react';
 import './ProductTable.css';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
@@ -39,8 +43,8 @@ function StockBar({ stock }) {
   const level = stock > 50 ? 'high' : stock > 15 ? 'medium' : 'low';
   return (
     <div className="pt-stock">
-      <span className={`pt-stock__label${level === 'low' ? ' pt-stock__label--low' : ''}`}>
-        {stock} left{level === 'low' && ' ⚠️'}
+      <span className={`pt-stock__label${level === 'low' ? ' pt-stock__label--low' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        {stock} left{level === 'low' && <AlertTriangle size={12} />}
       </span>
       <div className="pt-stock__bar">
         <div className={`pt-stock__fill pt-stock__fill--${level}`} style={{ width: `${pct}%` }} />
@@ -55,7 +59,7 @@ function DeleteModal({ product, onConfirm, onClose, loading }) {
     <div className="pt-modal-overlay" role="dialog" aria-modal="true" aria-label="Confirm deletion"
       onClick={onClose}>
       <div className="pt-modal" onClick={(e) => e.stopPropagation()}>
-        <span className="pt-modal__icon" aria-hidden="true">🗑️</span>
+        <span className="pt-modal__icon" aria-hidden="true"><Trash2 size={32} /></span>
         <h2 className="pt-modal__title">Delete product?</h2>
         <p className="pt-modal__desc">
           <span className="pt-modal__name">"{product.name}"</span> will be permanently removed
@@ -248,8 +252,8 @@ export default function ProductTable({ token, onEdit }) {
 
       {/* ── Toolbar ─────────────────────────────────────── */}
       <div className="pt-toolbar">
-        <span className="pt-toolbar__title">
-          🍽️ Food Items
+        <span className="pt-toolbar__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <UtensilsCrossed size={20} /> Food Items
           <span className="pt-toolbar__count">{total}</span>
         </span>
 
@@ -265,7 +269,7 @@ export default function ProductTable({ token, onEdit }) {
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             aria-label="Search products"
           />
-          <span className="pt-search__icon" aria-hidden="true">🔍</span>
+          <span className="pt-search__icon" aria-hidden="true"><Search size={16} /></span>
         </div>
 
         {/* Category filter */}
@@ -292,7 +296,7 @@ export default function ProductTable({ token, onEdit }) {
 
         {/* Add new */}
         <Link to="/admin/products/new" className="pt-btn pt-btn--primary">
-          + Add Item
+          <Plus size={16} style={{ marginRight: '4px' }} /> Add Item
         </Link>
       </div>
 
@@ -305,7 +309,7 @@ export default function ProductTable({ token, onEdit }) {
             Clear selection
           </button>
           <button className="pt-btn pt-btn--danger" onClick={handleBulkDelete}>
-            🗑 Delete selected
+            <Trash2 size={16} style={{ marginRight: '4px' }} /> Delete selected
           </button>
         </div>
       )}
@@ -351,7 +355,7 @@ export default function ProductTable({ token, onEdit }) {
               <tr>
                 <td colSpan={9}>
                   <div className="pt-empty">
-                    <span className="pt-empty__icon">😕</span>
+                    <span className="pt-empty__icon"><Frown size={48} /></span>
                     <p className="pt-empty__title">Failed to load products</p>
                     <p className="pt-empty__desc">{error}</p>
                     <button className="pt-btn pt-btn--secondary" onClick={fetchProducts}>
@@ -364,7 +368,7 @@ export default function ProductTable({ token, onEdit }) {
               <tr>
                 <td colSpan={9}>
                   <div className="pt-empty">
-                    <span className="pt-empty__icon">🍽️</span>
+                    <span className="pt-empty__icon"><UtensilsCrossed size={48} /></span>
                     <p className="pt-empty__title">No products found</p>
                     <p className="pt-empty__desc">
                       {search || category !== 'All'
@@ -372,7 +376,7 @@ export default function ProductTable({ token, onEdit }) {
                         : 'Add your first food item to get started.'}
                     </p>
                     <Link to="/admin/products/new" className="pt-btn pt-btn--primary">
-                      + Add First Item
+                      <Plus size={16} style={{ marginRight: '4px' }} /> Add First Item
                     </Link>
                   </div>
                 </td>
@@ -433,7 +437,7 @@ export default function ProductTable({ token, onEdit }) {
                     <td>
                       {product.numReviews > 0 ? (
                         <div className="pt-rating">
-                          <span className="pt-rating__stars">★</span>
+                          <span className="pt-rating__stars"><Star size={12} fill="currentColor" /></span>
                           <span className="pt-rating__num">{product.rating?.toFixed(1)}</span>
                           <span className="pt-rating__count">({product.numReviews})</span>
                         </div>
@@ -461,8 +465,9 @@ export default function ProductTable({ token, onEdit }) {
                         aria-label={product.isFeatured ? 'Remove from featured' : 'Mark as featured'}
                         aria-pressed={product.isFeatured}
                         title={product.isFeatured ? 'Featured' : 'Not featured'}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
                       >
-                        ⭐
+                        <Star size={18} color={product.isFeatured ? '#f5a623' : '#666'} fill={product.isFeatured ? '#f5a623' : 'transparent'} />
                       </button>
                     </td>
 
@@ -483,7 +488,7 @@ export default function ProductTable({ token, onEdit }) {
                           title="View on storefront"
                           aria-label={`View ${product.name} on storefront`}
                         >
-                          👁
+                          <Eye size={16} />
                         </Link>
                         <button
                           className="pt-row-btn pt-row-btn--edit"
@@ -491,7 +496,7 @@ export default function ProductTable({ token, onEdit }) {
                           title="Edit product"
                           aria-label={`Edit ${product.name}`}
                         >
-                          ✏️
+                          <Pencil size={16} />
                         </button>
                         <button
                           className="pt-row-btn pt-row-btn--delete"
@@ -499,7 +504,7 @@ export default function ProductTable({ token, onEdit }) {
                           title="Delete product"
                           aria-label={`Delete ${product.name}`}
                         >
-                          🗑
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </td>
@@ -524,7 +529,7 @@ export default function ProductTable({ token, onEdit }) {
               onClick={() => setPage((p) => p - 1)}
               disabled={page === 1}
               aria-label="Previous page"
-            >←</button>
+            ><ChevronLeft size={16} /></button>
 
             {Array.from({ length: totalPages }, (_, i) => i + 1)
               .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
@@ -554,7 +559,7 @@ export default function ProductTable({ token, onEdit }) {
               onClick={() => setPage((p) => p + 1)}
               disabled={page === totalPages}
               aria-label="Next page"
-            >→</button>
+            ><ChevronRight size={16} /></button>
           </div>
         </div>
       )}

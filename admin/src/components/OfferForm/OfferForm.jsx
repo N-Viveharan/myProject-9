@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import './OfferForm.css';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
@@ -55,7 +56,7 @@ export default function OfferForm({ token, onClose, onSuccess }) {
       <div className="offer-modal">
         <div className="offer-modal__header">
           <h2>Create New Offer</h2>
-          <button className="offer-modal__close" onClick={onClose}>&times;</button>
+          <button className="offer-modal__close" onClick={onClose}><X size={24} /></button>
         </div>
 
         {error && <div className="offer-modal__error">{error}</div>}

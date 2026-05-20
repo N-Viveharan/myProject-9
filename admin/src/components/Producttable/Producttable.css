@@ -315,30 +315,31 @@ th[data-dir="desc"].sorted .pt-sort-icon span.desc { opacity:1; }
 .pt-product-cell {
   display:     flex;
   align-items: center;
-  gap:         0.75rem;
-  min-width:   220px;
+  gap:         1rem;
+  min-width:   240px;
 }
 
 .pt-product-img {
-  width:         40px;
-  height:        40px;
+  width:         64px;
+  height:        64px;
   border-radius: 9px;
   object-fit:    cover;
   background:    var(--pt-surface3);
   flex-shrink:   0;
   border:        1px solid var(--pt-border);
+  box-shadow:    0 2px 8px rgba(0,0,0,0.2);
 }
 
 .pt-product-info { min-width:0; }
 
 .pt-product-name {
-  font-size:     0.875rem;
+  font-size:     0.95rem;
   font-weight:   600;
-  color:         var(--pt-text);
+  color:         #ffffff;
   overflow:      hidden;
   text-overflow: ellipsis;
   white-space:   nowrap;
-  max-width:     200px;
+  max-width:     250px;
   display:       block;
 }
 

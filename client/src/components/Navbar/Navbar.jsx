@@ -2,13 +2,14 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { CartContext } from '../../context/CartContext.jsx';
+import { Home, Utensils, Tag, Package, Search, ShoppingCart, User, LogOut, ChevronDown } from 'lucide-react';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'Home',     path: '/',         icon: '🏠' },
-  { label: 'Menu',     path: '/products', icon: '🍽️' },
-  { label: 'Offers',   path: '/offers',   icon: '🔥' },
-  { label: 'Track',    path: '/orders',   icon: '📦' },
+  { label: 'Home',     path: '/',         icon: <Home size={18} /> },
+  { label: 'Menu',     path: '/products', icon: <Utensils size={18} /> },
+  { label: 'Offers',   path: '/offers',   icon: <Tag size={18} /> },
+  { label: 'Track',    path: '/orders',   icon: <Package size={18} /> },
 ];
 
 export default function Navbar() {
@@ -78,7 +79,9 @@ export default function Navbar() {
 
           {/* ── Brand ─────────────────────────────────────────── */}
           <Link to="/" className="navbar__brand" aria-label="FoodieExpress home">
-            <div className="navbar__brand-icon">🍜</div>
+            <div className="navbar__brand-icon">
+              <Utensils size={24} color="var(--nav-accent)" />
+            </div>
             <span className="navbar__brand-name">
               Foodie<span>Express</span>
             </span>
@@ -94,7 +97,7 @@ export default function Navbar() {
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search food"
             />
-            <span className="navbar__search-icon" aria-hidden="true">🔍</span>
+            <span className="navbar__search-icon" aria-hidden="true"><Search size={16} /></span>
           </form>
 
           {/* ── Desktop Links ─────────────────────────────────── */}
@@ -123,7 +126,7 @@ export default function Navbar() {
               className="navbar__cart-btn"
               aria-label={`Cart, ${cartCount} items`}
             >
-              <span className="navbar__cart-icon" aria-hidden="true">🛒</span>
+              <span className="navbar__cart-icon" aria-hidden="true"><ShoppingCart size={20} /></span>
               <span className="navbar__cart-label">Cart</span>
               {cartCount > 0 && (
                 <span className="navbar__cart-count" aria-live="polite">
@@ -148,81 +151,48 @@ export default function Navbar() {
                   }
                 </div>
                 <span className="navbar__avatar-name">{user?.name ? user.name.split(' ')[0] : 'Guest'}</span>
-                <span className="navbar__avatar-chevron" aria-hidden="true">▼</span>
+                <span className="navbar__avatar-chevron" aria-hidden="true"><ChevronDown size={14} /></span>
               </button>
 
               {dropdownOpen && (
                 <div className="navbar__dropdown" role="menu">
-                  {user ? (
-                    <>
-                      <div className="navbar__dropdown-header">
-                        <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
-                          {user.name}
-                        </strong>
-                        <div className="navbar__dropdown-email">{user.email}</div>
-                      </div>
+                  <div className="navbar__dropdown-header">
+                    <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
+                      {user?.name || 'Guest User'}
+                    </strong>
+                    <div className="navbar__dropdown-email">{user?.email || 'guest@example.com'}</div>
+                  </div>
 
-                      <Link
-                        to="/profile"
-                        className="navbar__dropdown-item"
-                        role="menuitem"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <span className="navbar__dropdown-icon">👤</span>
-                        My Profile
-                      </Link>
+                  <Link
+                    to="/profile"
+                    className="navbar__dropdown-item"
+                    role="menuitem"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <span className="navbar__dropdown-icon"><User size={16} /></span>
+                    My Profile
+                  </Link>
 
-                      <Link
-                        to="/orders"
-                        className="navbar__dropdown-item"
-                        role="menuitem"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <span className="navbar__dropdown-icon">📦</span>
-                        My Orders
-                      </Link>
+                  <Link
+                    to="/orders"
+                    className="navbar__dropdown-item"
+                    role="menuitem"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <span className="navbar__dropdown-icon"><Package size={16} /></span>
+                    My Orders
+                  </Link>
 
-                      <div className="navbar__dropdown-divider" aria-hidden="true" />
+                  <div className="navbar__dropdown-divider" aria-hidden="true" />
 
-                      <button
-                        className="navbar__dropdown-item navbar__dropdown-item--danger"
-                        role="menuitem"
-                        onClick={handleLogout}
-                      >
-                        <span className="navbar__dropdown-icon">🚪</span>
-                        Sign Out
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div className="navbar__dropdown-header">
-                        <strong style={{ color: 'var(--nav-text)', fontSize: '0.875rem' }}>
-                          Welcome!
-                        </strong>
-                        <div className="navbar__dropdown-email">Sign in to manage orders</div>
-                      </div>
-
-                      <Link
-                        to="/login"
-                        className="navbar__dropdown-item"
-                        role="menuitem"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <span className="navbar__dropdown-icon">🔑</span>
-                        Log in
-                      </Link>
-
-                      <Link
-                        to="/register"
-                        className="navbar__dropdown-item"
-                        role="menuitem"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <span className="navbar__dropdown-icon">✨</span>
-                        Sign up
-                      </Link>
-                    </>
-                  )}
+                  <button
+                    className="navbar__dropdown-item navbar__dropdown-item--danger"
+                    role="menuitem"
+                    onClick={handleLogout}
+                  >
+                    <span className="navbar__dropdown-icon"><LogOut size={16} /></span>
+                    Sign Out
+                  </button>
                 </div>
               )}
             </div>
@@ -270,7 +240,7 @@ export default function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search food"
               />
-              <span className="navbar__search-icon" aria-hidden="true">🔍</span>
+              <span className="navbar__search-icon" aria-hidden="true"><Search size={16} /></span>
             </form>
           </div>
 
@@ -292,29 +262,16 @@ export default function Navbar() {
 
           <div className="navbar__mobile-divider" aria-hidden="true" />
 
-          {user ? (
-            <>
-              <Link to="/profile" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
-                <span aria-hidden="true">👤</span> My Profile
-              </Link>
-              <Link to="/orders" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
-                <span aria-hidden="true">📦</span> My Orders
-              </Link>
-              <div className="navbar__mobile-divider" aria-hidden="true" />
-              <button className="navbar__mobile-link" style={{ color: '#e74c3c' }} onClick={handleLogout}>
-                <span aria-hidden="true">🚪</span> Sign Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
-                <span aria-hidden="true">🔑</span> Log in
-              </Link>
-              <Link to="/register" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
-                <span aria-hidden="true">✨</span> Sign up
-              </Link>
-            </>
-          )}
+          <Link to="/profile" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
+            <span aria-hidden="true"><User size={18} /></span> My Profile
+          </Link>
+          <Link to="/orders" className="navbar__mobile-link" onClick={() => setMobileOpen(false)}>
+            <span aria-hidden="true"><Package size={18} /></span> My Orders
+          </Link>
+          <div className="navbar__mobile-divider" aria-hidden="true" />
+          <button className="navbar__mobile-link" style={{ color: '#e74c3c' }} onClick={handleLogout}>
+            <span aria-hidden="true"><LogOut size={18} /></span> Sign Out
+          </button>
         </nav>
       )}
     </>

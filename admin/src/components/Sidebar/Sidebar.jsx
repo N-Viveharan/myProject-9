@@ -1,5 +1,20 @@
 import { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { 
+  LayoutDashboard, 
+  UtensilsCrossed, 
+  Package, 
+  Users, 
+  Star, 
+  Gift, 
+  Settings, 
+  LineChart,
+  ChefHat,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
+  ChevronDown
+} from 'lucide-react';
 import './Sidebar.css';
 
 /* ── Nav structure ───────────────────────────────────────────── */
@@ -7,14 +22,14 @@ const NAV_SECTIONS = [
   {
     label: 'Overview',
     items: [
-      { icon: '📊', label: 'Dashboard',   path: '/admin',          end: true },
+      { icon: <LayoutDashboard size={20} />, label: 'Dashboard',   path: '/admin',          end: true },
     ],
   },
   {
     label: 'Catalogue',
     items: [
       {
-        icon: '🍽️', label: 'Food Items', path: '/admin/products',
+        icon: <UtensilsCrossed size={20} />, label: 'Food Items', path: '/admin/products',
         sub: [
           { label: 'All Products',  path: '/admin/products' },
           { label: 'Add New Item',  path: '/admin/products/new' },
@@ -26,17 +41,17 @@ const NAV_SECTIONS = [
   {
     label: 'Operations',
     items: [
-      { icon: '📦', label: 'Orders',       path: '/admin/orders',  badgeKey: 'orders' },
-      { icon: '👥', label: 'Customers',    path: '/admin/users' },
-      { icon: '⭐', label: 'Reviews',      path: '/admin/reviews', badgeKey: 'reviews' },
-      { icon: '🎁', label: 'Offers',       path: '/admin/offers' },
+      { icon: <Package size={20} />, label: 'Orders',       path: '/admin/orders',  badgeKey: 'orders' },
+      { icon: <Users size={20} />, label: 'Customers',    path: '/admin/users' },
+      { icon: <Star size={20} />, label: 'Reviews',      path: '/admin/reviews', badgeKey: 'reviews' },
+      { icon: <Gift size={20} />, label: 'Offers',       path: '/admin/offers' },
     ],
   },
   {
     label: 'System',
     items: [
-      { icon: '⚙️', label: 'Settings',    path: '/admin/settings' },
-      { icon: '📈', label: 'Analytics',   path: '/admin/analytics' },
+      { icon: <Settings size={20} />, label: 'Settings',    path: '/admin/settings' },
+      { icon: <LineChart size={20} />, label: 'Analytics',   path: '/admin/analytics' },
     ],
   },
 ];
@@ -82,8 +97,8 @@ function NavItem({ item, collapsed, badges, openSub, onToggleSub }) {
           <span className="sidebar-item__icon" aria-hidden="true">{item.icon}</span>
           <span className="sidebar-item__label">{item.label}</span>
           {!collapsed && (
-            <span style={{ fontSize: '0.6rem', color: 'var(--sb-text-muted)', transition: 'transform 0.2s', transform: isSubOpen ? 'rotate(180deg)' : 'none' }}>
-              ▼
+            <span style={{ transition: 'transform 0.2s', transform: isSubOpen ? 'rotate(180deg)' : 'none', display: 'flex' }}>
+              <ChevronDown size={14} color="var(--sb-text-muted)" />
             </span>
           )}
         </button>
@@ -175,7 +190,9 @@ export default function Sidebar({
       >
         {/* ── Logo ──────────────────────────────────────── */}
         <Link to="/admin" className="sidebar-logo" aria-label="FoodieExpress Admin">
-          <div className="sidebar-logo__icon" aria-hidden="true">🍜</div>
+          <div className="sidebar-logo__icon" aria-hidden="true">
+            <ChefHat size={28} />
+          </div>
           <div className="sidebar-logo__text">
             <span className="sidebar-logo__name">
               Foodie<span>Express</span>
@@ -189,7 +206,7 @@ export default function Sidebar({
               aria-label="Collapse sidebar"
               title="Collapse sidebar"
             >
-              ◀
+              <ChevronLeft size={16} />
             </button>
           )}
         </Link>
@@ -225,7 +242,7 @@ export default function Sidebar({
             aria-label="Sign out"
             title={collapsed ? 'Sign out' : undefined}
           >
-            <span className="sidebar-item__icon" aria-hidden="true">🚪</span>
+            <span className="sidebar-item__icon" aria-hidden="true"><LogOut size={20} /></span>
             <span className="sidebar-item__label">Sign Out</span>
           </button>
         </nav>
@@ -239,7 +256,7 @@ export default function Sidebar({
               aria-label="Expand sidebar"
               style={{ justifyContent: 'center' }}
             >
-              <span className="sidebar-item__icon" style={{ margin: 0 }}>▶</span>
+              <span className="sidebar-item__icon" style={{ margin: 0, display: 'flex', justifyContent: 'center' }}><ChevronRight size={20} /></span>
             </button>
           </div>
         )}

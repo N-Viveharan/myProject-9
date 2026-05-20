@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext.jsx';
 import { AuthContext } from '../../context/AuthContext.jsx';
+import { Leaf, Star, Clock, Flame, Bike, ShoppingCart, Heart, Package, Utensils, Trash2 } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import Spinner, { SkeletonCards } from '../../components/Spinner/Spinner.jsx';
 import './ProductDetail.css';
@@ -154,7 +155,7 @@ export default function ProductDetail() {
     return (
       <div className="detail-page">
         <div className="detail-page__error">
-          <span className="detail-page__error-icon">🍽️</span>
+          <span className="detail-page__error-icon"><Utensils size={48} color="var(--pd-text-muted)" /></span>
           <h1 className="detail-page__error-title">Dish not found</h1>
           <p className="detail-page__error-desc">{error || 'This item may have been removed.'}</p>
           <Link to="/products" className="detail-page__error-btn">← Back to Menu</Link>
@@ -213,8 +214,8 @@ export default function ProductDetail() {
           {/* Badges */}
           <div className="detail-info__badges">
             <span className="detail-info__badge detail-info__badge--category">{category}</span>
-            {isVeg && <span className="detail-info__badge detail-info__badge--veg">🌱 Veg</span>}
-            {isFeatured && <span className="detail-info__badge detail-info__badge--featured">⭐ Featured</span>}
+            {isVeg && <span className="detail-info__badge detail-info__badge--veg"><Leaf size={14} /> Veg</span>}
+            {isFeatured && <span className="detail-info__badge detail-info__badge--featured"><Star size={14} /> Featured</span>}
           </div>
 
           <h1 className="detail-info__name">{name}</h1>
@@ -235,17 +236,17 @@ export default function ProductDetail() {
           {/* Meta chips */}
           <div className="detail-info__meta">
             <span className="detail-info__meta-chip">
-              <span aria-hidden="true">🕐</span>
+              <span aria-hidden="true"><Clock size={16} /></span>
               {preparationTime || 20} min prep
             </span>
             {calories > 0 && (
               <span className="detail-info__meta-chip">
-                <span aria-hidden="true">🔥</span>
+                <span aria-hidden="true"><Flame size={16} /></span>
                 {calories} kcal
               </span>
             )}
             <span className="detail-info__meta-chip">
-              <span aria-hidden="true">🚴</span>
+              <span aria-hidden="true"><Bike size={16} /></span>
               Delivery in 30 min
             </span>
           </div>
@@ -274,7 +275,7 @@ export default function ProductDetail() {
                 <div className="detail-info__qty" role="group" aria-label="Cart quantity">
                   <button className="detail-info__qty-btn" onClick={handleCartDecrease}
                     aria-label={inCartQty <= 1 ? 'Remove from cart' : 'Decrease quantity'}>
-                    {inCartQty <= 1 ? '🗑' : '−'}
+                    {inCartQty <= 1 ? <Trash2 size={14} /> : '−'}
                   </button>
                   <span className="detail-info__qty-val" aria-live="polite">{inCartQty}</span>
                   <button className="detail-info__qty-btn" onClick={handleCartIncrease} aria-label="Increase quantity">+</button>
@@ -284,7 +285,7 @@ export default function ProductDetail() {
                   className="detail-info__add-btn detail-info__add-btn--in-cart"
                   onClick={() => navigate('/cart')}
                 >
-                  <span aria-hidden="true">🛒</span> View Cart
+                  <span aria-hidden="true"><ShoppingCart size={16} /></span> View Cart
                 </button>
 
                 <button
@@ -293,7 +294,7 @@ export default function ProductDetail() {
                   aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                   aria-pressed={wishlisted}
                 >
-                  {wishlisted ? '❤️' : '🤍'}
+                  <Heart size={20} fill={wishlisted ? "var(--pd-accent)" : "none"} color={wishlisted ? "var(--pd-accent)" : "var(--pd-text-muted)"} />
                 </button>
               </div>
             </>
@@ -327,7 +328,7 @@ export default function ProductDetail() {
                 aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                 aria-pressed={wishlisted}
               >
-                {wishlisted ? '❤️' : '🤍'}
+                <Heart size={20} fill={wishlisted ? "var(--pd-accent)" : "none"} color={wishlisted ? "var(--pd-accent)" : "var(--pd-text-muted)"} />
               </button>
             </div>
           )}

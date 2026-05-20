@@ -48,11 +48,6 @@
   gap: 0.5rem;
 }
 
-.page-title::before {
-  content: '🎁';
-  font-size: 1.8rem;
-}
-
 .page-subtitle {
   font-size: 0.9rem;
   color: var(--mo-text-muted);

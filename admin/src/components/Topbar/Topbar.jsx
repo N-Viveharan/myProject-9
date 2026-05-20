@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Search, Bell, Globe, Settings, ChevronDown, User, LogOut, Package, Star, AlertTriangle, PartyPopper } from 'lucide-react';
 import './Topbar.css';
 
 /* ── Breadcrumb map ──────────────────────────────────────────── */
@@ -37,10 +38,10 @@ function LiveClock() {
 
 /* ── Notifications panel ─────────────────────────────────────── */
 const DEMO_NOTIFS = [
-  { id: 1, icon: '📦', msg: 'New order #A3F1 just placed — ₹640',  time: '2 min ago',  unread: true  },
-  { id: 2, icon: '⭐', msg: 'New 5-star review on Butter Chicken',  time: '18 min ago', unread: true  },
-  { id: 3, icon: '⚠️', msg: 'Low stock: Paneer Tikka Pizza (3 left)',time:'1 hr ago',  unread: false },
-  { id: 4, icon: '👤', msg: 'New customer registered: Priya S.',    time: '3 hr ago',  unread: false },
+  { id: 1, icon: <Package size={18} />, msg: 'New order #A3F1 just placed — ₹640',  time: '2 min ago',  unread: true  },
+  { id: 2, icon: <Star size={18} />, msg: 'New 5-star review on Butter Chicken',  time: '18 min ago', unread: true  },
+  { id: 3, icon: <AlertTriangle size={18} />, msg: 'Low stock: Paneer Tikka Pizza (3 left)',time:'1 hr ago',  unread: false },
+  { id: 4, icon: <User size={18} />, msg: 'New customer registered: Priya S.',    time: '3 hr ago',  unread: false },
 ];
 
 function NotifPanel({ onClose }) {
@@ -64,7 +65,9 @@ function NotifPanel({ onClose }) {
 
       {notifs.length === 0 ? (
         <div className="topbar-notif-empty">
-          <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>🎉</div>
+          <div style={{ marginBottom: '0.5rem', color: 'var(--pd-text-muted)', display: 'flex', justifyContent: 'center' }}>
+            <PartyPopper size={32} />
+          </div>
           All caught up!
         </div>
       ) : (
@@ -212,7 +215,7 @@ export default function Topbar({
             alert('⌘K — Wire to your command palette / global search');
           }}
         >
-          <span aria-hidden="true">🔍</span>
+          <span aria-hidden="true"><Search size={16} /></span>
           Search…
           <kbd className="topbar-search__kbd">⌘K</kbd>
         </button>
@@ -221,24 +224,7 @@ export default function Topbar({
       <div className="topbar-actions">
 
         {/* Notifications */}
-        <div ref={notifRef} style={{ position: 'relative' }}>
-          <button
-            className="topbar-icon-btn topbar-icon-btn--bell"
-            onClick={() => { setShowNotif((v) => !v); setShowUser(false); setLocalNotifs(0); }}
-            aria-label={`Notifications${localNotifs > 0 ? `, ${localNotifs} unread` : ''}`}
-            aria-expanded={showNotif}
-            aria-haspopup="dialog"
-          >
-            <span className="topbar-bell-icon" aria-hidden="true">🔔</span>
-            {localNotifs > 0 && (
-              <span className="topbar-icon-btn__badge" aria-hidden="true">
-                {localNotifs > 9 ? '9+' : localNotifs}
-              </span>
-            )}
-          </button>
-
-          {showNotif && <NotifPanel onClose={() => setShowNotif(false)} />}
-        </div>
+       
 
         {/* Quick links */}
         <Link
@@ -248,7 +234,7 @@ export default function Topbar({
           aria-label="View live storefront"
           title="View storefront"
         >
-          <span aria-hidden="true">🌐</span>
+          <span aria-hidden="true"><Globe size={20} /></span>
         </Link>
 
         <Link
@@ -257,7 +243,7 @@ export default function Topbar({
           aria-label="Settings"
           title="Settings"
         >
-          <span aria-hidden="true">⚙️</span>
+          <span aria-hidden="true"><Settings size={20} /></span>
         </Link>
       </div>
 
@@ -277,7 +263,7 @@ export default function Topbar({
             }
           </div>
           <span className="topbar-user__name">{user.name?.split(' ')[0] || 'Admin'}</span>
-          <span className="topbar-user__chevron" aria-hidden="true">▼</span>
+          <span className="topbar-user__chevron" aria-hidden="true" style={{ display: 'flex' }}><ChevronDown size={14} /></span>
         </button>
 
         {showUser && (
@@ -295,7 +281,7 @@ export default function Topbar({
               role="menuitem"
               onClick={() => setShowUser(false)}
             >
-              <span className="topbar-dropdown__icon">👤</span>
+              <span className="topbar-dropdown__icon" style={{ display: 'flex' }}><User size={16} /></span>
               My Profile
             </Link>
 
@@ -305,7 +291,7 @@ export default function Topbar({
               role="menuitem"
               onClick={() => setShowUser(false)}
             >
-              <span className="topbar-dropdown__icon">⚙️</span>
+              <span className="topbar-dropdown__icon" style={{ display: 'flex' }}><Settings size={16} /></span>
               Settings
             </Link>
 
@@ -316,7 +302,7 @@ export default function Topbar({
               role="menuitem"
               onClick={() => setShowUser(false)}
             >
-              <span className="topbar-dropdown__icon">🌐</span>
+              <span className="topbar-dropdown__icon" style={{ display: 'flex' }}><Globe size={16} /></span>
               View Storefront
             </Link>
 
@@ -327,7 +313,7 @@ export default function Topbar({
               role="menuitem"
               onClick={handleLogout}
             >
-              <span className="topbar-dropdown__icon">🚪</span>
+              <span className="topbar-dropdown__icon" style={{ display: 'flex' }}><LogOut size={16} /></span>
               Sign Out
             </button>
           </div>

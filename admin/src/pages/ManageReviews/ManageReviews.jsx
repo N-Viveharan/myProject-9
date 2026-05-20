@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { AlertTriangle, Star, RefreshCw, CheckCircle, Search, Frown, Trash2 } from 'lucide-react';
 import './ManageReviews.css';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
@@ -6,9 +7,14 @@ const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 /* ── Stars Display Component ────────────────────────────────── */
 function Stars({ rating = 0 }) {
   return (
-    <span className="mr-stars" aria-label={`${rating} out of 5 stars`}>
+    <span className="mr-stars" aria-label={`${rating} out of 5 stars`} style={{ display: 'flex', gap: '2px' }}>
       {[1, 2, 3, 4, 5].map((s) => (
-        <span key={s} style={{ color: rating >= s ? '#f5a623' : 'rgba(255, 255, 255, 0.15)' }}>★</span>
+        <Star 
+          key={s} 
+          size={16} 
+          color={rating >= s ? '#f5a623' : 'rgba(255, 255, 255, 0.15)'} 
+          fill={rating >= s ? '#f5a623' : 'transparent'} 
+        />
       ))}
     </span>
   );
@@ -19,7 +25,7 @@ function DeleteModal({ review, onConfirm, onClose, loading }) {
   return (
     <div className="mr-modal-overlay" role="dialog" aria-modal="true" aria-label="Confirm review deletion" onClick={onClose}>
       <div className="mr-modal" onClick={(e) => e.stopPropagation()}>
-        <span className="mr-modal__icon" aria-hidden="true">⚠️</span>
+        <span className="mr-modal__icon" aria-hidden="true"><AlertTriangle size={32} /></span>
         <h2 className="mr-modal__title">Delete this review?</h2>
         <p className="mr-modal__desc">
           Are you sure you want to delete the review by <strong>{review.name}</strong> for product <strong>{review.productName}</strong>? This action cannot be undone.
@@ -132,7 +138,7 @@ export default function ManageReviews({ token }) {
         <div className="mr-header__inner">
           <div>
             <h1 className="mr-header__title">
-              <span aria-hidden="true">⭐</span> Manage Reviews
+              <span aria-hidden="true"><Star size={32} /></span> Manage Reviews
             </h1>
             <p className="mr-header__subtitle">
               Monitor, filter, and moderate customer reviews across all food items.
@@ -144,7 +150,7 @@ export default function ManageReviews({ token }) {
               onClick={fetchReviews}
               aria-label="Refresh reviews list"
             >
-              <span aria-hidden="true">🔄</span> Refresh
+              <span aria-hidden="true"><RefreshCw size={16} /></span> Refresh
             </button>
           </div>
         </div>
@@ -160,7 +166,7 @@ export default function ManageReviews({ token }) {
             aria-live="polite"
           >
             <span aria-hidden="true">
-              {toast.type === 'success' ? '✅' : '⚠️'}
+              {toast.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
             </span>
             {toast.text}
           </div>
@@ -193,7 +199,7 @@ export default function ManageReviews({ token }) {
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Search reviews"
             />
-            <span className="mr-search__icon" aria-hidden="true">🔍</span>
+            <span className="mr-search__icon" aria-hidden="true"><Search size={18} /></span>
           </div>
 
           <select
@@ -221,13 +227,13 @@ export default function ManageReviews({ token }) {
           </div>
         ) : error ? (
           <div className="mr-empty">
-            <span className="mr-empty__icon">😕</span>
+            <span className="mr-empty__icon"><Frown size={48} /></span>
             <p className="mr-empty__title">Failed to load reviews</p>
             <p className="mr-empty__desc">{error}</p>
           </div>
         ) : filteredReviews.length === 0 ? (
           <div className="mr-empty">
-            <span className="mr-empty__icon">⭐</span>
+            <span className="mr-empty__icon"><Star size={48} /></span>
             <p className="mr-empty__title">No reviews found</p>
             <p className="mr-empty__desc">
               {search || ratingFilter !== 'all' ? 'Try adjusting your search filters.' : 'Customers have not posted any reviews yet.'}
@@ -260,7 +266,7 @@ export default function ManageReviews({ token }) {
                       aria-label={`Delete review by ${review.name} for ${review.productName}`}
                       title="Delete Review"
                     >
-                      🗑
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </div>

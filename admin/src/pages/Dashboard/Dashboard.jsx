@@ -1,5 +1,10 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Package, User, Star, Bike, AlertTriangle, IndianRupee, Leaf, 
+  Hand, RefreshCw, Zap, Tag, Utensils, UtensilsCrossed, Fish, 
+  Cake, Coffee, ArrowRight, Plus
+} from 'lucide-react';
 import { DashboardStats } from '../../components/StatsCard/StatsCard.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import './Dashboard.css';
@@ -19,26 +24,35 @@ const STATUS_CLS = {
   'Cancelled':        'cancelled',
 };
 
-
-
-
 /* ── Top categories (derived from products) ──────────────────── */
 const CATEGORY_ICONS = {
-  Burgers:'🍔', Pizza:'🍕', Sushi:'🍣', Pasta:'🍝', Salads:'🥗',
-  Desserts:'🍰', Beverages:'🧃', Sandwiches:'🥪', Wraps:'🌯',
-  Seafood:'🦐', Chicken:'🍗', Vegan:'🌱', Breakfast:'🥞', Sides:'🍟', Other:'✨',
+  Burgers: <Utensils size={18} />, 
+  Pizza: <UtensilsCrossed size={18} />, 
+  Sushi: <Fish size={18} />, 
+  Pasta: <Utensils size={18} />, 
+  Salads: <Leaf size={18} />,
+  Desserts: <Cake size={18} />, 
+  Beverages: <Coffee size={18} />, 
+  Sandwiches: <Utensils size={18} />, 
+  Wraps: <Utensils size={18} />,
+  Seafood: <Fish size={18} />, 
+  Chicken: <Utensils size={18} />, 
+  Vegan: <Leaf size={18} />, 
+  Breakfast: <Coffee size={18} />, 
+  Sides: <Utensils size={18} />, 
+  Other: <Star size={18} />,
 };
 
 /* ── Live activity feed (mock — replace with WebSocket/SSE) ──── */
 const ACTIVITY_FEED = [
-  { id:1, icon:'📦', msg:'New order #3F1A placed — ₹580',           time:'Just now'   },
-  { id:2, icon:'👤', msg:'New customer registered: Ananya M.',       time:'2 min ago'  },
-  { id:3, icon:'⭐', msg:'5-star review on Paneer Tikka Pizza',      time:'8 min ago'  },
-  { id:4, icon:'🚴', msg:'Order #2D9B delivered successfully',       time:'15 min ago' },
-  { id:5, icon:'⚠️', msg:'Low stock: Chicken Burger (5 remaining)', time:'22 min ago' },
-  { id:6, icon:'📦', msg:'Order #1C7E confirmed',                    time:'31 min ago' },
-  { id:7, icon:'💰', msg:'Revenue milestone: ₹1L this month!',       time:'1 hr ago'   },
-  { id:8, icon:'🌱', msg:'New vegan category item added',            time:'2 hr ago'   },
+  { id:1, icon: <Package size={16} />, msg:'New order #3F1A placed — ₹580',           time:'Just now'   },
+  { id:2, icon: <User size={16} />, msg:'New customer registered: Ananya M.',       time:'2 min ago'  },
+  { id:3, icon: <Star size={16} />, msg:'5-star review on Paneer Tikka Pizza',      time:'8 min ago'  },
+  { id:4, icon: <Bike size={16} />, msg:'Order #2D9B delivered successfully',       time:'15 min ago' },
+  { id:5, icon: <AlertTriangle size={16} />, msg:'Low stock: Chicken Burger (5 remaining)', time:'22 min ago' },
+  { id:6, icon: <Package size={16} />, msg:'Order #1C7E confirmed',                    time:'31 min ago' },
+  { id:7, icon: <IndianRupee size={16} />, msg:'Revenue milestone: ₹1L this month!',       time:'1 hr ago'   },
+  { id:8, icon: <Leaf size={16} />, msg:'New vegan category item added',            time:'2 hr ago'   },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -132,8 +146,8 @@ export default function Dashboard({ user, token }) {
       <header className="dashboard__header">
         <div className="dashboard__header-row">
           <div>
-            <h1 className="dashboard__greeting">
-              {greet}, <em>{firstName}</em> 👋
+            <h1 className="dashboard__greeting" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {greet}, <em>{firstName}</em> <Hand size={28} />
             </h1>
             <div className="dashboard__meta">
               <span>{dateStr}</span>
@@ -145,8 +159,8 @@ export default function Dashboard({ user, token }) {
               {error && (
                 <>
                   <span className="dashboard__meta-sep" aria-hidden="true">·</span>
-                  <span style={{ color: 'var(--dash-red)', fontSize: '0.75rem' }}>
-                    ⚠ {error}
+                  <span style={{ color: 'var(--dash-red)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertTriangle size={12} /> {error}
                   </span>
                 </>
               )}
@@ -156,17 +170,17 @@ export default function Dashboard({ user, token }) {
           {/* Quick actions */}
           <div className="dashboard__quick-actions">
             <Link to="/admin/products/new" className="dash-quick-btn dash-quick-btn--primary">
-              <span aria-hidden="true">+</span> Add Item
+              <span aria-hidden="true"><Plus size={16} /></span> Add Item
             </Link>
             <Link to="/admin/orders" className="dash-quick-btn dash-quick-btn--secondary">
-              <span aria-hidden="true">📦</span> Orders
+              <span aria-hidden="true"><Package size={16} /></span> Orders
             </Link>
             <button
               className="dash-quick-btn dash-quick-btn--secondary"
               onClick={fetchDashboard}
               aria-label="Refresh dashboard"
             >
-              <span aria-hidden="true">🔄</span> Refresh
+              <span aria-hidden="true"><RefreshCw size={16} /></span> Refresh
             </button>
           </div>
         </div>
@@ -186,10 +200,10 @@ export default function Dashboard({ user, token }) {
         <section aria-labelledby="recent-orders-title">
           <div className="dash-section-heading">
             <h2 className="dash-section-title" id="recent-orders-title">
-              <span aria-hidden="true">📦</span> Recent Orders
+              <span aria-hidden="true"><Package size={20} /></span> Recent Orders
             </h2>
             <Link to="/admin/orders" className="dash-section-link">
-              View all <span aria-hidden="true">→</span>
+              View all <span aria-hidden="true"><ArrowRight size={14} /></span>
             </Link>
           </div>
 
@@ -295,7 +309,7 @@ export default function Dashboard({ user, token }) {
             <div className="dash-activity">
               <div className="dash-activity__header">
                 <h2 className="dash-activity__title" id="activity-title">
-                  <span aria-hidden="true">⚡</span> Live Activity
+                  <span aria-hidden="true"><Zap size={20} /></span> Live Activity
                 </h2>
                 <button
                   className="dash-activity__clear"
@@ -314,7 +328,7 @@ export default function Dashboard({ user, token }) {
                 ) : (
                   activities.map((item) => (
                     <div key={item.id} className="dash-activity__item">
-                      <div className="dash-activity__icon" aria-hidden="true">
+                      <div className="dash-activity__icon" aria-hidden="true" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {item.icon}
                       </div>
                       <div className="dash-activity__text">
@@ -333,7 +347,7 @@ export default function Dashboard({ user, token }) {
             <div className="dash-categories">
               <div className="dash-categories__header">
                 <h2 className="dash-categories__title" id="categories-title">
-                  <span aria-hidden="true">🏷️</span> Top Categories
+                  <span aria-hidden="true"><Tag size={20} /></span> Top Categories
                 </h2>
               </div>
 
@@ -345,8 +359,8 @@ export default function Dashboard({ user, token }) {
                 ) : (
                   categories.map((cat) => (
                     <div key={cat.name} className="dash-cat-row">
-                      <span className="dash-cat-icon" aria-hidden="true">
-                        {CATEGORY_ICONS[cat.name] || '🍽️'}
+                      <span className="dash-cat-icon" aria-hidden="true" style={{ display: 'flex' }}>
+                        {CATEGORY_ICONS[cat.name] || <Utensils size={18} />}
                       </span>
                       <span className="dash-cat-name">{cat.name}</span>
                       <div className="dash-cat-bar-wrap" aria-label={`${cat.count} orders`}>

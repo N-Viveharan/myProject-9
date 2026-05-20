@@ -1,25 +1,30 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { 
+  Utensils, UtensilsCrossed, Fish, Cake, Coffee, Star, Leaf, 
+  Pencil, Plus, AlertTriangle, CheckCircle, ClipboardList, Tag, 
+  IndianRupee, Trash2, Image as ImageIcon, Camera, Lock, Save 
+} from 'lucide-react';
 import './ProductForm.css';
 
 const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Category definitions ────────────────────────────────────── */
 const CATEGORIES = [
-  { value: 'Burgers',    icon: '🍔', label: 'Burgers' },
-  { value: 'Pizza',      icon: '🍕', label: 'Pizza' },
-  { value: 'Sushi',      icon: '🍣', label: 'Sushi' },
-  { value: 'Pasta',      icon: '🍝', label: 'Pasta' },
-  { value: 'Salads',     icon: '🥗', label: 'Salads' },
-  { value: 'Desserts',   icon: '🍰', label: 'Desserts' },
-  { value: 'Beverages',  icon: '🧃', label: 'Beverages' },
-  { value: 'Sandwiches', icon: '🥪', label: 'Sandwiches' },
-  { value: 'Wraps',      icon: '🌯', label: 'Wraps' },
-  { value: 'Seafood',    icon: '🦐', label: 'Seafood' },
-  { value: 'Chicken',    icon: '🍗', label: 'Chicken' },
-  { value: 'Vegan',      icon: '🌱', label: 'Vegan' },
-  { value: 'Breakfast',  icon: '🥞', label: 'Breakfast' },
-  { value: 'Sides',      icon: '🍟', label: 'Sides' },
-  { value: 'Other',      icon: '✨', label: 'Other' },
+  { value: 'Burgers',    icon: <Utensils size={16} />, label: 'Burgers' },
+  { value: 'Pizza',      icon: <UtensilsCrossed size={16} />, label: 'Pizza' },
+  { value: 'Sushi',      icon: <Fish size={16} />, label: 'Sushi' },
+  { value: 'Pasta',      icon: <Utensils size={16} />, label: 'Pasta' },
+  { value: 'Salads',     icon: <Leaf size={16} />, label: 'Salads' },
+  { value: 'Desserts',   icon: <Cake size={16} />, label: 'Desserts' },
+  { value: 'Beverages',  icon: <Coffee size={16} />, label: 'Beverages' },
+  { value: 'Sandwiches', icon: <Utensils size={16} />, label: 'Sandwiches' },
+  { value: 'Wraps',      icon: <Utensils size={16} />, label: 'Wraps' },
+  { value: 'Seafood',    icon: <Fish size={16} />, label: 'Seafood' },
+  { value: 'Chicken',    icon: <Utensils size={16} />, label: 'Chicken' },
+  { value: 'Vegan',      icon: <Leaf size={16} />, label: 'Vegan' },
+  { value: 'Breakfast',  icon: <Coffee size={16} />, label: 'Breakfast' },
+  { value: 'Sides',      icon: <Utensils size={16} />, label: 'Sides' },
+  { value: 'Other',      icon: <Star size={16} />, label: 'Other' },
 ];
 
 const BASE_URL = API.replace(/\/api\/?$/, '');
@@ -251,8 +256,8 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
 
         {/* ── Header ────────────────────────────────────── */}
         <div className="pf-header">
-          <h2 className="pf-header__title">
-            <span aria-hidden="true">{isEdit ? '✏️' : '➕'}</span>
+          <h2 className="pf-header__title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span aria-hidden="true">{isEdit ? <Pencil size={24} /> : <Plus size={24} />}</span>
             {isEdit ? `Edit: ${product.name}` : 'Add New Food Item'}
           </h2>
           <button className="pf-header__close" onClick={onClose} aria-label="Close form">✕</button>
@@ -261,7 +266,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
         {/* ── Error / success banner ────────────────────── */}
         {banner.text && (
           <div className={`pf-banner pf-banner--${banner.type}`} role={banner.type === 'error' ? 'alert' : 'status'}>
-            <span aria-hidden="true">{banner.type === 'error' ? '⚠️' : '✅'}</span>
+            <span aria-hidden="true" style={{ display: 'flex', alignItems: 'center' }}>
+              {banner.type === 'error' ? <AlertTriangle size={18} /> : <CheckCircle size={18} />}
+            </span>
             {banner.text}
           </div>
         )}
@@ -271,7 +278,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
 
           {/* ── Basic info ────────────────────────────── */}
           <div className="pf-section">
-            <div className="pf-section-title">📋 Basic Information</div>
+            <div className="pf-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ClipboardList size={18} /> Basic Information
+            </div>
 
             <div className="pf-group">
               <label htmlFor="pf-name" className="pf-label">
@@ -291,7 +300,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                 autoFocus
                 aria-describedby={errors.name ? 'pf-name-err' : undefined}
               />
-              {errors.name && <span id="pf-name-err" className="pf-field-error" role="alert">⚠ {errors.name}</span>}
+              {errors.name && <span id="pf-name-err" className="pf-field-error" role="alert">
+                <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.name}
+              </span>}
             </div>
 
             <div className="pf-group">
@@ -310,13 +321,17 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                 maxLength={1000}
                 aria-describedby={errors.description ? 'pf-desc-err' : undefined}
               />
-              {errors.description && <span id="pf-desc-err" className="pf-field-error" role="alert">⚠ {errors.description}</span>}
+              {errors.description && <span id="pf-desc-err" className="pf-field-error" role="alert">
+                <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.description}
+              </span>}
             </div>
           </div>
 
           {/* ── Category ──────────────────────────────── */}
           <div className="pf-section">
-            <div className="pf-section-title">🏷️ Category <span style={{ color: 'var(--pf-accent)' }}>*</span></div>
+            <div className="pf-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Tag size={18} /> Category <span style={{ color: 'var(--pf-accent)', marginLeft: '4px' }}>*</span>
+            </div>
             <div className="pf-category-grid" role="radiogroup" aria-label="Select category">
               {CATEGORIES.map((cat) => (
                 <button
@@ -327,17 +342,23 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                   aria-pressed={form.category === cat.value}
                   aria-label={cat.label}
                 >
-                  <span className="pf-category-chip__icon" aria-hidden="true">{cat.icon}</span>
+                  <span className="pf-category-chip__icon" aria-hidden="true" style={{ display: 'flex', alignItems: 'center' }}>
+                    {cat.icon}
+                  </span>
                   <span className="pf-category-chip__label">{cat.label}</span>
                 </button>
               ))}
             </div>
-            {errors.category && <span className="pf-field-error" role="alert">⚠ {errors.category}</span>}
+            {errors.category && <span className="pf-field-error" role="alert">
+              <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.category}
+            </span>}
           </div>
 
           {/* ── Pricing & stock ───────────────────────── */}
           <div className="pf-section">
-            <div className="pf-section-title">💰 Pricing & Availability</div>
+            <div className="pf-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <IndianRupee size={18} /> Pricing & Availability
+            </div>
 
             <div className="pf-row pf-row--3">
               {/* Price */}
@@ -358,7 +379,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                     step={0.01}
                   />
                 </div>
-                {errors.price && <span className="pf-field-error" role="alert">⚠ {errors.price}</span>}
+                {errors.price && <span className="pf-field-error" role="alert">
+                  <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.price}
+                </span>}
                 {price > 0 && !errors.price && (
                   <span className="pf-price-preview" aria-live="polite">
                     ₹{price.toLocaleString('en-IN')}
@@ -379,7 +402,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                   onChange={(e) => handleChange('stock', e.target.value)}
                   min={0}
                 />
-                {errors.stock && <span className="pf-field-error" role="alert">⚠ {errors.stock}</span>}
+                {errors.stock && <span className="pf-field-error" role="alert">
+                  <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.stock}
+                </span>}
               </div>
 
               {/* Prep time */}
@@ -417,9 +442,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
             {/* Toggle switches */}
             <div className="pf-toggles">
               {[
-                { key: 'isVeg',       icon: '🌱', label: 'Vegetarian'   },
-                { key: 'isFeatured',  icon: '⭐', label: 'Featured'     },
-                { key: 'isAvailable', icon: '✅', label: 'Available'    },
+                { key: 'isVeg',       icon: <Leaf size={16} />, label: 'Vegetarian'   },
+                { key: 'isFeatured',  icon: <Star size={16} />, label: 'Featured'     },
+                { key: 'isAvailable', icon: <CheckCircle size={16} />, label: 'Available'    },
               ].map(({ key, icon, label }) => (
                 <div
                   key={key}
@@ -431,7 +456,7 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                   tabIndex={0}
                   onKeyDown={(e) => { if (e.key === ' ') { e.preventDefault(); handleChange(key, !form[key]); } }}
                 >
-                  <span aria-hidden="true">{icon}</span>
+                  <span aria-hidden="true" style={{ display: 'flex', alignItems: 'center' }}>{icon}</span>
                   <span className="pf-toggle-item__label">{label}</span>
                   <div className={`pf-switch${form[key] ? ' pf-switch--on' : ''}`} aria-hidden="true" />
                 </div>
@@ -441,7 +466,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
 
           {/* ── Custom Food Options & Add-ons ────────── */}
           <div className="pf-section">
-            <div className="pf-section-title">🍽️ Food Options & Add-ons (Customizations)</div>
+            <div className="pf-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <UtensilsCrossed size={18} /> Food Options & Add-ons (Customizations)
+            </div>
 
             <div className="pf-options-section">
               {(form.options || []).map((group, groupIdx) => (
@@ -453,8 +480,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                       className="pf-option-group__remove"
                       onClick={() => removeOptionGroup(groupIdx)}
                       aria-label={`Remove option group ${groupIdx + 1}`}
+                      style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
                     >
-                      🗑️ Remove Group
+                      <Trash2 size={14} /> Remove Group
                     </button>
                   </div>
 
@@ -537,9 +565,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                       type="button"
                       className="pf-add-btn"
                       onClick={() => addChoice(groupIdx)}
-                      style={{ alignSelf: 'flex-start', padding: '0.4rem 0.75rem', marginTop: '0.25rem' }}
+                      style={{ alignSelf: 'flex-start', padding: '0.4rem 0.75rem', marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '4px' }}
                     >
-                      + Add Choice
+                      <Plus size={14} /> Add Choice
                     </button>
                   </div>
                 </div>
@@ -549,15 +577,18 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                 type="button"
                 className="pf-add-btn pf-btn-add-group"
                 onClick={addOptionGroup}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}
               >
-                ➕ Add Option Group
+                <Plus size={16} /> Add Option Group
               </button>
             </div>
           </div>
 
           {/* ── Image ─────────────────────────────────── */}
           <div className="pf-section">
-            <div className="pf-section-title">🖼️ Product Image <span style={{ color: isEdit ? 'var(--pf-text-muted)' : 'var(--pf-accent)' }}>{isEdit ? '(optional)' : '*'}</span></div>
+            <div className="pf-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ImageIcon size={18} /> Product Image <span style={{ color: isEdit ? 'var(--pf-text-muted)' : 'var(--pf-accent)' }}>{isEdit ? '(optional)' : '*'}</span>
+            </div>
 
             {imagePreview ? (
               <div className="pf-image-preview">
@@ -581,7 +612,7 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                   onChange={(e) => handleFileChange(e.target.files[0])}
                   aria-label="Choose image file"
                 />
-                <span className="pf-image-zone__icon" aria-hidden="true">📷</span>
+                <span className="pf-image-zone__icon" aria-hidden="true"><Camera size={32} /></span>
                 <span className="pf-image-zone__title">
                   Drag & drop or <span className="pf-image-zone__accent">click to browse</span>
                 </span>
@@ -614,14 +645,16 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
               </div>
             )}
 
-            {errors.image && <span className="pf-field-error" role="alert">⚠ {errors.image}</span>}
+            {errors.image && <span className="pf-field-error" role="alert">
+              <AlertTriangle size={12} style={{ marginRight: '4px' }} /> {errors.image}
+            </span>}
           </div>
         </form>
 
         {/* ── Footer ────────────────────────────────────── */}
         <div className="pf-footer">
-          <span className="pf-footer__left">
-            <span aria-hidden="true">🔒</span>
+          <span className="pf-footer__left" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Lock size={14} />
             Changes saved instantly after submission
           </span>
           <div className="pf-footer__actions">
@@ -642,7 +675,9 @@ export default function ProductForm({ product = null, token, onSuccess, onClose 
                 </>
               ) : (
                 <>
-                  <span aria-hidden="true">{isEdit ? '💾' : '➕'}</span>
+                  <span aria-hidden="true" style={{ display: 'flex', alignItems: 'center' }}>
+                    {isEdit ? <Save size={16} /> : <Plus size={16} />}
+                  </span>
                   {isEdit ? 'Save Changes' : 'Create Product'}
                 </>
               )}

@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { Users, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
 import UserTable from '../../components/UserTable/UserTable.jsx';
 import './ManageUsers.css';
 
@@ -6,8 +7,6 @@ import './ManageUsers.css';
    MANAGE USERS PAGE
    ════════════════════════════════════════════════════════════ */
 
-
-   
 /**
  * ManageUsers
  *
@@ -36,7 +35,7 @@ export default function ManageUsers({ token, currentUserId, totalUsers }) {
         <div className="mu-header__inner">
           <div>
             <h1 className="mu-header__title">
-              <span aria-hidden="true">👥</span> Manage Users
+              <span aria-hidden="true"><Users size={32} /></span> Manage Users
             </h1>
             <p className="mu-header__subtitle">
               View, search, and manage all registered customers.
@@ -52,7 +51,7 @@ export default function ManageUsers({ token, currentUserId, totalUsers }) {
               onClick={handleRefresh}
               aria-label="Refresh user list"
             >
-              <span aria-hidden="true">🔄</span> Refresh
+              <span aria-hidden="true"><RefreshCw size={16} /></span> Refresh
             </button>
           </div>
         </div>
@@ -69,7 +68,7 @@ export default function ManageUsers({ token, currentUserId, totalUsers }) {
             aria-live="polite"
           >
             <span aria-hidden="true">
-              {toast.type === 'success' ? '✅' : '⚠️'}
+              {toast.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
             </span>
             {toast.text}
           </div>

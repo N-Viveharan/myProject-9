@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Plus, Gift, Trash2 } from 'lucide-react';
 import Spinner from '../../components/Spinner/Spinner.jsx';
 import OfferForm from '../../components/OfferForm/OfferForm.jsx';
 import './ManageOffers.css';
@@ -55,11 +56,11 @@ export default function ManageOffers({ token }) {
     <div className="manage-offers page-container">
       <div className="page-header">
         <div>
-          <h1 className="page-title">Manage Offers</h1>
+          <h1 className="page-title"><Gift size={28} color="var(--mo-accent)" /> Manage Offers</h1>
           <p className="page-subtitle">Create and manage discount coupons and promotions</p>
         </div>
         <button className="mo-btn-add" onClick={() => setShowForm(true)}>
-          <span aria-hidden="true">➕</span> Create Offer
+          <span aria-hidden="true"><Plus size={16} /></span> Create Offer
         </button>
       </div>
 
@@ -69,7 +70,7 @@ export default function ManageOffers({ token }) {
         <div className="mo-error">{error}</div>
       ) : offers.length === 0 ? (
         <div className="mo-empty">
-          <span className="mo-empty-icon">🎁</span>
+          <span className="mo-empty-icon"><Gift size={48} /></span>
           <h3>No offers found</h3>
           <p>Create a new offer to boost sales!</p>
         </div>
@@ -96,7 +97,7 @@ export default function ManageOffers({ token }) {
                   {offer.isActive ? 'Active' : 'Inactive'}
                 </span>
                 <button className="mo-btn-delete" onClick={() => handleDelete(offer._id)}>
-                  🗑️ Delete
+                  <Trash2 size={14} style={{ marginRight: '4px' }} /> Delete
                 </button>
               </div>
             </div>

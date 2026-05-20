@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Package, Zap, ClipboardList, CheckCircle, ChefHat, Bike, PartyPopper, XCircle, RefreshCw, ArrowLeft, Download, AlertTriangle, X
+} from 'lucide-react';
 import OrderTable from '../../components/OrderTable/OrderTable.jsx';
 import './Manageorders.css';
 
@@ -7,24 +10,24 @@ const API = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api';
 
 /* ── Status tabs ─────────────────────────────────────────────── */
 const STATUS_TABS = [
-  { value: 'all', label: 'All Orders', icon: '📦' },
-  { value: 'active', label: 'Active', icon: '⚡', pulse: true },
-  { value: 'Placed', label: 'Placed', icon: '📋' },
-  { value: 'Confirmed', label: 'Confirmed', icon: '✅' },
-  { value: 'Preparing', label: 'Preparing', icon: '👨‍🍳' },
-  { value: 'Out for Delivery', label: 'Out for Delivery', icon: '🚴' },
-  { value: 'Delivered', label: 'Delivered', icon: '🎉' },
-  { value: 'Cancelled', label: 'Cancelled', icon: '❌' },
+  { value: 'all', label: 'All Orders', icon: <Package size={16} /> },
+  { value: 'active', label: 'Active', icon: <Zap size={16} />, pulse: true },
+  { value: 'Placed', label: 'Placed', icon: <ClipboardList size={16} /> },
+  { value: 'Confirmed', label: 'Confirmed', icon: <CheckCircle size={16} /> },
+  { value: 'Preparing', label: 'Preparing', icon: <ChefHat size={16} /> },
+  { value: 'Out for Delivery', label: 'Out for Delivery', icon: <Bike size={16} /> },
+  { value: 'Delivered', label: 'Delivered', icon: <PartyPopper size={16} /> },
+  { value: 'Cancelled', label: 'Cancelled', icon: <XCircle size={16} /> },
 ];
 
 /* ── Status update confirm modal ─────────────────────────────── */
 function StatusConfirmModal({ orderId, newStatus, onConfirm, onClose, loading }) {
   const STATUS_ICONS = {
-    'Confirmed': '✅',
-    'Preparing': '👨‍🍳',
-    'Out for Delivery': '🚴',
-    'Delivered': '🎉',
-    'Cancelled': '❌',
+    'Confirmed': <CheckCircle size={24} />,
+    'Preparing': <ChefHat size={24} />,
+    'Out for Delivery': <Bike size={24} />,
+    'Delivered': <PartyPopper size={24} />,
+    'Cancelled': <XCircle size={24} />,
   };
 
   return (
@@ -37,7 +40,7 @@ function StatusConfirmModal({ orderId, newStatus, onConfirm, onClose, loading })
     >
       <div className="mo-status-modal">
         <span className="mo-status-modal__icon" aria-hidden="true">
-          {STATUS_ICONS[newStatus] || '🔄'}
+          {STATUS_ICONS[newStatus] || <RefreshCw size={24} />}
         </span>
         <h2 className="mo-status-modal__title">Update order status?</h2>
         <p className="mo-status-modal__desc">
@@ -194,7 +197,7 @@ export default function ManageOrders({ token, user }) {
         <div className="manage-orders__header-row">
           <div>
             <h1 className="manage-orders__title">
-              <span aria-hidden="true">📦</span> Orders
+              <span aria-hidden="true"><Package size={32} /></span> Orders
             </h1>
             <p className="manage-orders__subtitle">
               View, filter and update all customer orders in real time
@@ -203,13 +206,13 @@ export default function ManageOrders({ token, user }) {
 
           <div className="manage-orders__actions">
             <button className="mo-btn" onClick={() => navigate('/admin')} aria-label="Back to dashboard">
-              <span aria-hidden="true">←</span> Dashboard
+              <span aria-hidden="true"><ArrowLeft size={16} /></span> Dashboard
             </button>
             <button className="mo-btn" onClick={handleExportAll} aria-label="Export all orders">
-              <span aria-hidden="true">📥</span> Export All
+              <span aria-hidden="true"><Download size={16} /></span> Export All
             </button>
             <button className="mo-btn" onClick={() => { setTableKey((k) => k + 1); fetchCounts(); }} aria-label="Refresh orders">
-              <span aria-hidden="true">🔄</span> Refresh
+              <span aria-hidden="true"><RefreshCw size={16} /></span> Refresh
             </button>
           </div>
         </div>
@@ -241,14 +244,14 @@ export default function ManageOrders({ token, user }) {
       {/* ── Alert banner ──────────────────────────────────── */}
       {alert.text && (
         <div className={`mo-alert mo-alert--${alert.type}`} role="status" aria-live="polite">
-          <span aria-hidden="true">{alert.type === 'success' ? '✅' : '⚠️'}</span>
+          <span aria-hidden="true">{alert.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}</span>
           {alert.text}
           <button
             className="mo-alert__close"
             onClick={() => setAlert({ text: '', type: '' })}
             aria-label="Dismiss"
           >
-            ✕
+            <X size={16} />
           </button>
         </div>
       )}

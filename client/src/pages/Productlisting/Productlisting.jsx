@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { Leaf, Star, Settings, Frown, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard.jsx';
 import CategoryFilter, { CATEGORIES } from '../../components/CategoryFilter/CategoryFilter.jsx';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
@@ -24,7 +25,9 @@ function FilterPanel({ filters, onChange, onReset, onClose }) {
       {onClose && (
         <div className="listing-sidebar__close">
           <span>Filters</span>
-          <button className="listing-sidebar__close-btn" onClick={onClose} aria-label="Close filters">✕</button>
+          <button className="listing-sidebar__close-btn" onClick={onClose} aria-label="Close filters">
+            <X size={20} />
+          </button>
         </div>
       )}
 
@@ -79,7 +82,7 @@ function FilterPanel({ filters, onChange, onReset, onClose }) {
 
         <label className="listing-sidebar__toggle">
           <span className="listing-sidebar__toggle-label">
-            <span aria-hidden="true">🌱</span> Veg only
+            <Leaf size={16} /> Veg only
           </span>
           <div
             className={`listing-sidebar__switch${filters.isVeg ? ' listing-sidebar__switch--on' : ''}`}
@@ -93,7 +96,7 @@ function FilterPanel({ filters, onChange, onReset, onClose }) {
 
         <label className="listing-sidebar__toggle">
           <span className="listing-sidebar__toggle-label">
-            <span aria-hidden="true">⭐</span> Featured
+            <Star size={16} /> Featured
           </span>
           <div
             className={`listing-sidebar__switch${filters.isFeatured ? ' listing-sidebar__switch--on' : ''}`}
@@ -285,7 +288,7 @@ export default function ProductListing() {
               aria-label="Open filters"
               aria-expanded={mobileOpen}
             >
-              <span aria-hidden="true">⚙️</span> Filters
+              <Settings size={16} /> Filters
               {activeChips.length > 0 && (
                 <span style={{ background: 'var(--pl-accent)', color: '#fff', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.68rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
                   {activeChips.length}
@@ -326,7 +329,7 @@ export default function ProductListing() {
                     }}
                     aria-label={`Remove ${chip.label} filter`}
                   >
-                    ✕
+                    <X size={12} />
                   </button>
                 </span>
               ))}
@@ -345,7 +348,7 @@ export default function ProductListing() {
               <SkeletonCards count={LIMIT} />
             ) : error ? (
               <div className="listing-empty" role="alert">
-                <span className="listing-empty__icon">😕</span>
+                <span className="listing-empty__icon"><Frown size={48} color="var(--pl-text-muted)" /></span>
                 <h2 className="listing-empty__title">Something went wrong</h2>
                 <p className="listing-empty__desc">{error}</p>
                 <button className="listing-empty__btn" onClick={() => fetchProducts(filters, page)}>
@@ -354,7 +357,7 @@ export default function ProductListing() {
               </div>
             ) : products.length === 0 ? (
               <div className="listing-empty">
-                <span className="listing-empty__icon">🔍</span>
+                <span className="listing-empty__icon"><Search size={48} color="var(--pl-text-muted)" /></span>
                 <h2 className="listing-empty__title">No results found</h2>
                 <p className="listing-empty__desc">
                   Try adjusting your filters or searching for something else.
@@ -381,7 +384,7 @@ export default function ProductListing() {
                 disabled={page === 1}
                 aria-label="Previous page"
               >
-                ←
+                <ChevronLeft size={16} />
               </button>
 
               {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -414,7 +417,7 @@ export default function ProductListing() {
                 disabled={page === totalPages}
                 aria-label="Next page"
               >
-                →
+                <ChevronRight size={16} />
               </button>
             </nav>
           )}

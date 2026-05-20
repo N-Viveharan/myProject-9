@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Routes, Route, useParams } from 'react-router-dom';
+import { UtensilsCrossed, ArrowLeft, Plus, AlertTriangle } from 'lucide-react';
 import ProductTable from '../../components/ProductTable/ProductTable.jsx';
 import ProductForm from '../../components/Productform/Productform.jsx';
 import Spinner from '../../components/Spinner/Spinner.jsx';
@@ -53,7 +54,9 @@ function EditProductWrapper({ token, onSuccess, onClose }) {
     return (
       <div className="pf-overlay">
         <div className="pf-modal" style={{ padding: '2rem', textAlign: 'center', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
-          <p style={{ color: '#e74c3c', fontWeight: 600 }}>⚠️ {error}</p>
+          <p style={{ color: '#e74c3c', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            <AlertTriangle size={20} /> {error}
+          </p>
           <button className="mp-btn mp-btn--primary" onClick={onClose} style={{ marginTop: '1rem' }}>Close</button>
         </div>
       </div>
@@ -101,7 +104,7 @@ export default function ManageProducts({ token }) {
       <header className="manage-products__header">
         <div className="manage-products__title-wrap">
           <h1 className="manage-products__title">
-            <span aria-hidden="true">🍽️</span> Products
+            <span aria-hidden="true"><UtensilsCrossed size={32} /></span> Products
           </h1>
           <p className="manage-products__subtitle">
             View, filter, and manage all catalog food items in real-time
@@ -114,14 +117,14 @@ export default function ManageProducts({ token }) {
             onClick={() => navigate('/admin')}
             aria-label="Back to dashboard"
           >
-            <span aria-hidden="true">←</span> Dashboard
+            <span aria-hidden="true"><ArrowLeft size={16} /></span> Dashboard
           </button>
           <button
             className="mp-btn mp-btn--primary"
             onClick={() => navigate('/admin/products/new')}
             aria-label="Add new food item"
           >
-            + Add Item
+            <span aria-hidden="true"><Plus size={16} /></span> Add Item
           </button>
         </div>
       </header>
